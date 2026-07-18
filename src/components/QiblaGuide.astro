@@ -1,0 +1,54 @@
+---
+import { qiblaGuide } from '../content/qiblaGuide';
+---
+
+<section class="knowledge" id="qibla-guide" aria-labelledby="qibla-guide-title">
+  <div class="knowledge__intro">
+    <h2 id="qibla-guide-title">Qibla direction guide</h2>
+    <p>{qiblaGuide.introduction}</p>
+  </div>
+
+  <div class="knowledge__section">
+    <h2>How to face the Qibla</h2>
+    <ol class="knowledge__steps">
+      {
+        qiblaGuide.steps.map((step) => (
+          <li>
+            <h3>{step.title}</h3>
+            <p>{step.text}</p>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+
+  <div class="knowledge__section">
+    <h2>How Qibla direction is calculated</h2>
+    <p>{qiblaGuide.calculation}</p>
+  </div>
+
+  <div class="knowledge__section">
+    <h2>Qibla direction facts</h2>
+    <ul class="knowledge__facts">
+      {
+        qiblaGuide.facts.map((fact) => (
+          <li>{fact}</li>
+        ))
+      }
+    </ul>
+  </div>
+
+  <div class="knowledge__section knowledge__faq" id="qibla-faq">
+    <h2>Qibla questions and answers</h2>
+    <div class="faq-list">
+      {
+        qiblaGuide.faqs.map((faq) => (
+          <details>
+            <summary>{faq.question}</summary>
+            <p>{faq.answer}</p>
+          </details>
+        ))
+      }
+    </div>
+  </div>
+</section>

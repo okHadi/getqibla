@@ -19,9 +19,9 @@ npm run build
 
 ## How it works
 
-The app gets the device location, calculates the shortest bearing from that location to the Kaaba, and combines it with the phone's compass heading. The calculation happens in the browser. Coordinates and sensor readings are not sent to a server.
+The app gets the device location, calculates the shortest bearing from that location to the Kaaba, and combines it with the phone's compass heading. The calculation happens in the browser. Coordinates and sensor readings are not sent to a server. The public page also includes a plain-English Qibla guide, facts, and questions and answers for people who want to understand the result.
 
-Compass and location permissions require HTTPS in production. If a browser cannot provide orientation data, the app shows a lightweight map fallback with the computed bearing.
+Compass and location permissions require HTTPS in production. If a browser cannot provide orientation data, the app keeps the compass visible and shows the computed Qibla angle so the user can use a separate physical compass.
 
 ## Configuration
 

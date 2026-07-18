@@ -1,8 +1,36 @@
 # GetQibla
 
-GetQibla is a free, open-source, mobile-first web compass for finding the Qibla direction.
+> GetQibla is a free, open-source, mobile-first Qibla direction finder. It uses a phone's location and compass to point toward the Kaaba in Makkah.
 
-- The Qibla bearing is calculated in the browser from the user's location and the Kaaba's coordinates.
-- Location and compass readings are not sent to a server.
-- The site does not require an account and has no ads or analytics by default.
-- The main tool is available at: /
+## Main tool
+
+- Main Qibla compass: /
+- Qibla guide and questions: /#qibla-guide
+- Qibla questions and answers: /#qibla-faq
+
+## Qibla facts
+
+- The Qibla is the direction Muslims face during salah (prayer).
+- The Qibla points to the Kaaba in Masjid al-Haram in Makkah, Saudi Arabia.
+- The direction is different for each location; there is no single compass direction for everyone.
+- A Qibla angle is measured clockwise from north: 0° north, 90° east, 180° south, and 270° west.
+- For example, 260° points a little south of due west.
+
+## How to find the Qibla on a phone
+
+1. Open GetQibla and tap Find Qibla.
+2. Allow location access so the app can calculate the direction from where you are.
+3. Allow compass or motion access if the browser asks for it.
+4. Move the phone slowly until the arrow turns green, then face the top of the phone in that direction.
+
+## Calculation and privacy
+
+- GetQibla calculates the initial great-circle bearing from the user's coordinates to the Kaaba's fixed coordinates.
+- It compares that Qibla angle with the phone's compass heading to move the arrow as the user turns.
+- The calculation runs in the browser. Location and sensor readings are not sent to a server.
+- No account, ads, or analytics are required by the open-source project.
+
+## Source
+
+- GitHub repository: https://github.com/okHadi/getqibla
+- License: MIT
