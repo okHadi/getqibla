@@ -50,13 +50,13 @@ const tickMarks = Array.from({ length: 36 });
         <span class="compass__direction compass__direction--east">E</span>
         <span class="compass__direction compass__direction--south">S</span>
         <span class="compass__direction compass__direction--west">W</span>
-        <div class="compass__arrow" data-qibla-arrow aria-hidden="true">
-          <span class="compass__arrow-head"></span>
-          <span class="compass__arrow-stem"></span>
-        </div>
-        <div class="compass__center" aria-hidden="true">
-          <span class="kaaba-mark"></span>
-        </div>
+      </div>
+      <div class="compass__arrow" data-qibla-arrow aria-hidden="true">
+        <span class="compass__arrow-head"></span>
+        <span class="compass__arrow-stem"></span>
+      </div>
+      <div class="compass__center" aria-hidden="true">
+        <span class="kaaba-mark"></span>
       </div>
     </div>
 
@@ -66,9 +66,28 @@ const tickMarks = Array.from({ length: 36 });
         <strong data-cardinal>—</strong>
       </div>
       <div class="bearing__item">
-        <span class="bearing__label">{en.bearing}</span>
+        <span class="bearing__label">
+          <span>{en.bearing}</span>
+          <button
+            class="info-button"
+            type="button"
+            data-bearing-info
+            aria-label="Explain angle from north"
+            aria-controls="bearing-help"
+            aria-expanded="false"
+          >
+            i
+          </button>
+        </span>
         <strong><span data-bearing>—</span><span class="bearing__unit">°</span></strong>
       </div>
+      <p
+        class="bearing-help"
+        id="bearing-help"
+        data-bearing-help
+        data-scale-message={en.bearingHelp}
+        hidden
+      >{en.bearingHelp}</p>
     </div>
 
     <button class="primary-button" type="button" data-start>
@@ -125,9 +144,12 @@ const tickMarks = Array.from({ length: 36 });
   const startText = document.querySelector<HTMLElement>('[data-start-text]');
   const status = document.querySelector<HTMLElement>('[data-status]');
   const statusText = document.querySelector<HTMLElement>('[data-status-text]');
+  const dial = document.querySelector<HTMLElement>('[data-dial]');
   const bearingBlock = document.querySelector<HTMLElement>('[data-bearing-block]');
   const bearingValue = document.querySelector<HTMLElement>('[data-bearing]');
   const cardinalValue = document.querySelector<HTMLElement>('[data-cardinal]');
+  const bearingInfoButton = document.querySelector<HTMLButtonElement>('[data-bearing-info]');
+  const bearingHelp = document.querySelector<HTMLElement>('[data-bearing-help]');
   const qiblaArrow = document.querySelector<HTMLElement>('[data-qibla-arrow]');
   const calibrateButton = document.querySelector<HTMLButtonElement>('[data-calibrate]');
   const calibration = document.querySelector<HTMLElement>('[data-calibration]');
@@ -161,6 +183,10 @@ const tickMarks = Array.from({ length: 36 });
     const rounded = Math.round(normalizeDegrees(bearing));
     if (bearingValue) bearingValue.textContent = String(rounded);
     if (cardinalValue) cardinalValue.textContent = getCardinalDirection(bearing);
+    if (bearingHelp) {
+      const scaleMessage = bearingHelp.dataset.scaleMessage ?? '';
+      bearingHelp.textContent = `${rounded}° is the exact angle. The Qibla is toward ${getCardinalDirection(bearing).toLowerCase()}. ${scaleMessage}`;
+    }
   }
 
   function getCardinalDirection(bearing: number): string {
@@ -217,6 +243,8 @@ const tickMarks = Array.from({ length: 36 });
     if (headingTimeout !== null) window.clearTimeout(headingTimeout);
     const rotation = getRelativeQiblaBearing(qiblaBearing, heading);
     const aligned = Math.abs(rotation) <= alignmentTolerance;
+    dial?.style.setProperty('--dial-rotation', `${-heading}deg`);
+    dial?.style.setProperty('--dial-counter-rotation', `${heading}deg`);
     qiblaArrow?.style.setProperty('--arrow-rotation', `${rotation}deg`);
     setAlignment(aligned);
     setStatus(
@@ -386,6 +414,12 @@ const tickMarks = Array.from({ length: 36 });
   startButton?.addEventListener('click', begin);
   retryButton?.addEventListener('click', begin);
   calibrateButton?.addEventListener('click', calibrate);
+
+  bearingInfoButton?.addEventListener('click', () => {
+    const expanded = bearingInfoButton.getAttribute('aria-expanded') === 'true';
+    bearingInfoButton.setAttribute('aria-expanded', String(!expanded));
+    if (bearingHelp) bearingHelp.hidden = expanded;
+  });
 
   const languageSelect = document.querySelector<HTMLSelectElement>('[data-language]');
   languageSelect?.addEventListener('change', () => {
