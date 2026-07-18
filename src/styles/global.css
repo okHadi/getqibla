@@ -754,7 +754,7 @@ h1 {
 
 .resource-links a:hover,
 .article-related a:hover,
-.article-shell a:hover {
+.article-shell a:not(.article-cta):hover {
   color: var(--text);
 }
 
@@ -853,6 +853,20 @@ h1 {
   font-size: 0.86rem;
   font-weight: 650;
   text-decoration: none;
+  transition: background-color 140ms ease, border-color 140ms ease;
+}
+
+.article-cta:hover,
+.article-cta:focus-visible {
+  border-color: #ffffff;
+  background: #ffffff;
+  color: var(--canvas);
+}
+
+.article-cta:active {
+  background: var(--sand-light);
+  border-color: var(--sand-light);
+  color: var(--canvas);
 }
 
 .city-bearing {
