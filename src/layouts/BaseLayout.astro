@@ -40,7 +40,9 @@ const schemas = structuredData ? (Array.isArray(structuredData) ? structuredData
     <link rel="canonical" href={canonicalUrl} />
     {localizedHome && localeCodes.map((code) => <link rel="alternate" hreflang={code} href={new URL(localePaths[code], siteUrl)} />)}
     {localizedHome && <link rel="alternate" hreflang="x-default" href={new URL('/', siteUrl)} />}
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%230c0c0b'/%3E%3Cpath d='M32 9l9 23-9 23-9-23L32 9z' fill='%23d2b475'/%3E%3Ccircle cx='32' cy='32' r='5' fill='%230c0c0b'/%3E%3C/svg%3E" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon-96.png" type="image/png" sizes="96x96" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
     <meta property="og:type" content={article ? 'article' : 'website'} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
