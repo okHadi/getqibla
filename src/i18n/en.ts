@@ -23,7 +23,7 @@ export const en = {
   locationDenied: 'Location access is needed to calculate Qibla.',
   compassUnavailable: 'Your phone compass is not available here.',
   retry: 'Try again',
-  privacy: 'Your location stays on your device.',
+  privacy: 'Location stays on your device.',
   method: 'How it works',
   methodText: 'We calculate the shortest direction from your location to the Kaaba. Nothing is sent to a server.',
   footer: 'Free and open source.',

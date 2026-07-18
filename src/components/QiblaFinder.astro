@@ -275,7 +275,7 @@ const tickMarks = Array.from({ length: 24 });
     if (mapFallback) mapFallback.hidden = false;
     if (calibrateButton) calibrateButton.hidden = true;
     if (bearingBlock) bearingBlock.hidden = false;
-    setStatus('Compass unavailable. Use the map below.');
+    setStatus('Compass unavailable.');
   }
 
   function showError(message: string): void {
@@ -286,7 +286,7 @@ const tickMarks = Array.from({ length: 24 });
     if (errorState) errorState.hidden = false;
     if (mapFallback) mapFallback.hidden = true;
     if (calibrateButton) calibrateButton.hidden = true;
-    setStatus('We need your location to continue.');
+    setStatus('Location unavailable.');
   }
 
   async function begin(): Promise<void> {

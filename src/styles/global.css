@@ -1,16 +1,16 @@
 :root {
   color-scheme: dark;
-  --bg: #101311;
-  --surface: #171c19;
-  --surface-raised: #1d2420;
-  --border: #2b3830;
-  --text: #f3f6f2;
-  --muted: #aab5ad;
-  --soft: #748078;
-  --accent: #69d3a0;
-  --accent-strong: #9aefc2;
-  --danger: #f1a6a6;
-  --shadow: 0 24px 80px rgb(0 0 0 / 0.24);
+  --bg: #111211;
+  --surface: #181a18;
+  --surface-raised: #202320;
+  --border: #303430;
+  --border-strong: #4a504b;
+  --text: #f0f1ed;
+  --muted: #a5aaa4;
+  --soft: #777d77;
+  --accent: #92d6ae;
+  --accent-strong: #b9e9c9;
+  --danger: #e8a2a2;
   font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -29,9 +29,7 @@ body {
   min-width: 320px;
   min-height: 100svh;
   margin: 0;
-  background:
-    radial-gradient(circle at 50% -15%, rgb(45 91 67 / 0.2), transparent 38rem),
-    var(--bg);
+  background: var(--bg);
   color: var(--text);
 }
 
@@ -58,8 +56,8 @@ button {
 button:focus-visible,
 select:focus-visible,
 a:focus-visible {
-  outline: 3px solid var(--accent-strong);
-  outline-offset: 4px;
+  outline: 2px solid var(--accent-strong);
+  outline-offset: 3px;
 }
 
 a {
@@ -109,7 +107,7 @@ a {
   height: 28px;
   place-items: center;
   border: 1px solid var(--border);
-  border-radius: 9px;
+  border-radius: 8px;
   background: var(--surface);
 }
 
@@ -123,12 +121,12 @@ a {
 
 .brand-mark::before {
   width: 2px;
-  height: 19px;
+  height: 18px;
   background: var(--accent);
 }
 
 .brand-mark::after {
-  width: 19px;
+  width: 18px;
   height: 2px;
   background: var(--accent);
 }
@@ -144,7 +142,7 @@ a {
   min-height: 38px;
   padding: 0 30px 0 12px;
   border: 1px solid var(--border);
-  border-radius: 10px;
+  border-radius: 8px;
   background: var(--surface);
   color: var(--muted);
   font-size: 0.78rem;
@@ -155,9 +153,9 @@ main {
 }
 
 .finder {
-  width: min(100% - 32px, 680px);
+  width: min(100% - 32px, 640px);
   margin: 0 auto;
-  padding: 30px 0 48px;
+  padding: 42px 0 48px;
 }
 
 .finder__intro {
@@ -167,9 +165,9 @@ main {
 .eyebrow {
   margin: 0 0 10px;
   color: var(--accent);
-  font-size: 0.7rem;
+  font-size: 0.68rem;
   font-weight: 700;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.12em;
   line-height: 1.2;
   text-transform: uppercase;
 }
@@ -182,38 +180,38 @@ p {
 
 h1 {
   margin-bottom: 12px;
-  font-size: clamp(2rem, 9vw, 3.5rem);
-  letter-spacing: -0.065em;
-  line-height: 0.98;
+  font-size: clamp(2rem, 8vw, 3.25rem);
+  font-weight: 650;
+  letter-spacing: -0.055em;
+  line-height: 1;
 }
 
 .intro-copy {
   max-width: 32rem;
   margin: 0 auto;
   color: var(--muted);
-  font-size: 0.98rem;
-  line-height: 1.55;
+  font-size: 0.95rem;
+  line-height: 1.5;
 }
 
 .compass-panel {
   position: relative;
   display: flex;
-  min-height: min(116vw, 620px);
+  min-height: 548px;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin-top: 25px;
-  padding: 28px 16px 24px;
+  margin-top: 30px;
+  padding: 26px 20px 28px;
   overflow: hidden;
   border: 1px solid var(--border);
-  border-radius: 28px;
-  background: linear-gradient(145deg, rgb(31 43 35 / 0.72), rgb(20 25 22 / 0.98));
-  box-shadow: var(--shadow);
+  border-radius: 18px;
+  background: var(--surface);
 }
 
 .compass-status {
   position: absolute;
-  top: 22px;
+  top: 20px;
   display: inline-flex;
   max-width: calc(100% - 32px);
   align-items: center;
@@ -230,41 +228,34 @@ h1 {
   flex: 0 0 auto;
   border-radius: 50%;
   background: var(--accent);
-  box-shadow: 0 0 0 4px rgb(105 211 160 / 0.1);
 }
 
 .compass {
   position: relative;
-  width: min(76vw, 350px);
+  width: min(74vw, 340px);
   aspect-ratio: 1;
-  margin: 25px auto 15px;
+  margin: 30px auto 22px;
 }
 
 .compass__dial {
   position: relative;
   width: 100%;
   height: 100%;
-  border: 1px solid rgb(143 188 161 / 0.28);
+  border: 2px solid var(--border-strong);
   border-radius: 50%;
-  background:
-    radial-gradient(circle at 50% 50%, transparent 0 47%, rgb(105 211 160 / 0.04) 47.2% 47.7%, transparent 48%),
-    radial-gradient(circle at 50% 50%, rgb(255 255 255 / 0.04), transparent 68%);
-  box-shadow:
-    inset 0 0 0 10px rgb(7 12 9 / 0.22),
-    inset 0 0 0 11px rgb(105 211 160 / 0.06),
-    0 0 70px rgb(105 211 160 / 0.08);
+  background: var(--surface);
+}
+
+.compass__dial::before {
+  position: absolute;
+  inset: 13px;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  content: "";
 }
 
 .compass__glow {
-  position: absolute;
-  inset: 0;
-  width: min(80vw, 350px);
-  aspect-ratio: 1;
-  margin: auto;
-  border-radius: 50%;
-  background: rgb(105 211 160 / 0.09);
-  filter: blur(42px);
-  pointer-events: none;
+  display: none;
 }
 
 .compass__tick {
@@ -275,19 +266,34 @@ h1 {
   height: 46%;
   transform: translateY(-100%) rotate(var(--tick-angle));
   transform-origin: 50% 100%;
-  background: linear-gradient(to top, transparent 0 92%, rgb(221 239 226 / 0.36) 92% 100%);
+  z-index: 1;
+}
+
+.compass__tick::after {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 8px;
+  background: var(--border-strong);
+  content: "";
 }
 
 .compass__tick--major {
   width: 2px;
-  background: linear-gradient(to top, transparent 0 87%, rgb(221 239 226 / 0.7) 87% 100%);
+}
+
+.compass__tick--major::after {
+  height: 14px;
+  background: var(--muted);
 }
 
 .compass__direction {
   position: absolute;
   color: var(--muted);
-  font-size: 0.7rem;
+  font-size: 0.72rem;
   font-weight: 700;
+  z-index: 1;
 }
 
 .compass__direction--north {
@@ -317,44 +323,43 @@ h1 {
 
 .compass__arrow {
   position: absolute;
-  top: 12%;
-  left: calc(50% - 13px);
-  width: 26px;
-  height: 76%;
+  top: 21%;
+  left: calc(50% - 16px);
+  width: 32px;
+  height: 58%;
   transform: rotate(var(--arrow-rotation, 0deg));
   transform-origin: center;
   transition: transform 180ms ease-out;
+  z-index: 2;
 }
 
 .compass__arrow-head {
   position: absolute;
   top: 0;
-  left: 2px;
-  width: 22px;
-  height: 30px;
+  left: 8px;
+  width: 16px;
+  height: 25px;
   clip-path: polygon(50% 0, 100% 100%, 50% 78%, 0 100%);
   background: var(--accent);
-  filter: drop-shadow(0 5px 10px rgb(105 211 160 / 0.3));
 }
 
 .compass__arrow-stem {
   position: absolute;
-  top: 25px;
-  left: 10px;
-  width: 6px;
-  height: calc(100% - 50px);
-  border-radius: 4px;
-  background: linear-gradient(var(--accent), rgb(105 211 160 / 0.2));
+  top: 21px;
+  left: 15px;
+  width: 2px;
+  height: calc(100% - 42px);
+  background: var(--accent);
 }
 
 .compass__arrow-tail {
   position: absolute;
   bottom: 0;
-  left: 3px;
-  width: 20px;
-  height: 26px;
+  left: 9px;
+  width: 14px;
+  height: 21px;
   clip-path: polygon(50% 100%, 100% 0, 50% 23%, 0 0);
-  background: rgb(169 185 174 / 0.45);
+  background: var(--muted);
 }
 
 .compass__center {
@@ -365,17 +370,17 @@ h1 {
   width: 36px;
   height: 36px;
   place-items: center;
-  border: 1px solid rgb(243 246 242 / 0.2);
+  border: 1px solid var(--border-strong);
   border-radius: 50%;
   background: var(--surface-raised);
-  box-shadow: 0 5px 20px rgb(0 0 0 / 0.3);
   transform: translate(-50%, -50%);
+  z-index: 3;
 }
 
 .kaaba-mark {
   display: block;
-  width: 11px;
-  height: 11px;
+  width: 10px;
+  height: 10px;
   border: 2px solid var(--accent-strong);
   background: var(--accent);
 }
@@ -409,7 +414,7 @@ h1 {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border-radius: 12px;
+  border-radius: 9px;
   font-weight: 700;
   transition: background-color 160ms ease, border-color 160ms ease, transform 160ms ease;
 }
@@ -419,7 +424,7 @@ h1 {
   padding: 0 22px;
   border: 1px solid var(--accent);
   background: var(--accent);
-  color: #092016;
+  color: #0d1a12;
 }
 
 .primary-button:hover {
@@ -443,8 +448,8 @@ h1 {
   width: 15px;
   height: 15px;
   margin-left: 8px;
-  border: 2px solid rgb(9 32 22 / 0.3);
-  border-top-color: #092016;
+  border: 2px solid rgb(13 26 18 / 0.3);
+  border-top-color: #0d1a12;
   border-radius: 50%;
   animation: spin 700ms linear infinite;
 }
@@ -474,7 +479,7 @@ h1 {
 
 .error-state {
   max-width: 300px;
-  margin-top: 14px;
+  margin-top: 16px;
   color: var(--muted);
   font-size: 0.8rem;
   line-height: 1.45;
@@ -504,13 +509,12 @@ h1 {
   border-color: var(--accent);
 }
 
-.map-fallback,
-.how-it-works {
-  margin-top: 18px;
-  padding: 22px;
+.map-fallback {
+  margin-top: 20px;
+  padding: 20px;
   border: 1px solid var(--border);
-  border-radius: 20px;
-  background: rgb(23 28 25 / 0.7);
+  border-radius: 18px;
+  background: var(--surface);
 }
 
 .section-heading {
@@ -523,6 +527,7 @@ h1 {
 h2 {
   margin-bottom: 8px;
   font-size: 1.12rem;
+  font-weight: 650;
   letter-spacing: -0.03em;
 }
 
@@ -544,21 +549,21 @@ h2 {
 .world-map-wrap {
   margin-top: 18px;
   overflow: hidden;
-  border: 1px solid rgb(105 211 160 / 0.16);
-  border-radius: 14px;
-  background: #111b15;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: #151815;
 }
 
 .world-map {
   display: block;
   width: 100%;
   height: auto;
-  color: rgb(105 211 160 / 0.13);
+  color: rgb(146 214 174 / 0.13);
 }
 
 .land {
-  fill: rgb(105 211 160 / 0.16);
-  stroke: rgb(105 211 160 / 0.2);
+  fill: rgb(146 214 174 / 0.16);
+  stroke: rgb(146 214 174 / 0.2);
   stroke-width: 0.5;
 }
 
@@ -569,7 +574,7 @@ h2 {
 }
 
 .map-point {
-  stroke: #111b15;
+  stroke: #151815;
   stroke-width: 1;
 }
 
@@ -592,7 +597,11 @@ h2 {
 }
 
 .how-it-works {
-  margin-top: 18px;
+  margin-top: 28px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  text-align: center;
 }
 
 .how-it-works h2 {
@@ -622,6 +631,27 @@ h2 {
   color: var(--accent-strong);
 }
 
+.compass-panel[data-state="idle"] .compass__arrow,
+.compass-panel[data-state="starting"] .compass__arrow {
+  opacity: 0.24;
+}
+
+.compass-panel[data-state="error"],
+.compass-panel[data-state="fallback"] {
+  min-height: 290px;
+}
+
+.compass-panel[data-state="error"] .compass,
+.compass-panel[data-state="fallback"] .compass,
+.compass-panel[data-state="error"] .compass-status,
+.compass-panel[data-state="fallback"] .compass-status,
+.compass-panel[data-state="error"] .bearing,
+.compass-panel[data-state="fallback"] .bearing,
+.compass-panel[data-state="error"] .primary-button,
+.compass-panel[data-state="fallback"] .primary-button {
+  display: none;
+}
+
 [hidden] {
   display: none !important;
 }
@@ -639,12 +669,11 @@ h2 {
   }
 
   .finder {
-    padding-top: 54px;
+    padding-top: 46px;
   }
 
   .compass-panel {
-    min-height: 620px;
-    margin-top: 34px;
+    margin-top: 30px;
     padding-inline: 36px;
   }
 }
