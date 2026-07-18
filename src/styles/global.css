@@ -75,8 +75,14 @@ a {
 
 .language-picker {
   display: flex;
+  align-items: center;
+  gap: 10px;
   justify-content: center;
-  margin-top: 18px;
+}
+
+.language-picker > span {
+  color: var(--faint);
+  font-size: 0.72rem;
 }
 
 .language-picker select {

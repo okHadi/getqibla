@@ -4,11 +4,10 @@ import { en } from '../i18n/en';
 const tickMarks = Array.from({ length: 36 });
 ---
 
-<section class="finder" aria-labelledby="page-title">
+<section class="finder" aria-label={en.title}>
   <div class="finder__intro">
-    <h1 id="page-title">{en.title}</h1>
     <label class="language-picker">
-      <span class="sr-only">{en.languageLabel}</span>
+      <span>{en.languageLabel}</span>
       <select data-language aria-label={en.languageLabel}>
         <option value="en">{en.languageEnglish}</option>
         <option value="ar" disabled>{en.languageArabic}</option>
