@@ -1,6 +1,7 @@
 import type { APIRoute } from 'astro';
+import { SITE_URL } from '../config';
 
-const siteUrl = import.meta.env.PUBLIC_SITE_URL || 'https://getqibla.app';
+const siteUrl = SITE_URL;
 
 export const GET: APIRoute = () => {
   const sitemapUrl = new URL('/sitemap.xml', siteUrl).toString();

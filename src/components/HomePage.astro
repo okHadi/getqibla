@@ -4,11 +4,12 @@ import QiblaFinder from './QiblaFinder.astro';
 import QiblaGuide from './QiblaGuide.astro';
 import SiteFooter from './SiteFooter.astro';
 import { localePaths, type LocaleCopy, type SupportedLocale } from '../i18n';
+import { SITE_URL } from '../config';
 
 interface Props { copy: LocaleCopy; locale: SupportedLocale }
 const { copy, locale } = Astro.props;
 const path = localePaths[locale];
-const siteUrl = import.meta.env.PUBLIC_SITE_URL || 'https://getqibla.app';
+const siteUrl = SITE_URL;
 const canonicalUrl = new URL(path, siteUrl).toString();
 const structuredData = {
   '@context': 'https://schema.org',

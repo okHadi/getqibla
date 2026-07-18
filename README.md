@@ -35,7 +35,7 @@ City bearings are calculated from each listed city centre and are reference valu
 
 ## Configuration
 
-Set `PUBLIC_SITE_URL` before deploying so canonical URLs, the sitemap, and robots.txt point to the public domain. The project currently defaults to `https://getqibla.app`.
+The canonical origin is set to `https://getqibla.com` in `src/config.ts` and `astro.config.mjs`. No deployment environment variable is required. `www.getqibla.com` should redirect to the canonical origin.
 
 Translations should be reviewed by native speakers before they are promoted through paid campaigns or treated as religious guidance.
 
@@ -57,7 +57,7 @@ For Cloudflare's GitHub integration, import this repository as a Worker and use:
 - Deploy command: `npm run deploy:worker`
 - Root directory: `/`
 
-Set `PUBLIC_SITE_URL` as a build variable in Cloudflare. The Worker name in the dashboard must be `getqibla` so it matches `wrangler.jsonc`. Every push to the connected production branch will then trigger a build and deployment.
+The Worker name in the dashboard must be `getqibla` so it matches `wrangler.jsonc`. Every push to the connected production branch will then trigger a build and deployment. No site URL build variable is needed.
 
 ## Contributing
 

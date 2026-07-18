@@ -2,8 +2,9 @@ import type { APIRoute } from 'astro';
 import { articles } from '../content/articles';
 import { qiblaCities } from '../content/cities';
 import { localeCodes, localePaths } from '../i18n';
+import { SITE_URL } from '../config';
 
-const siteUrl = import.meta.env.PUBLIC_SITE_URL || 'https://getqibla.app';
+const siteUrl = SITE_URL;
 const escapeXml = (value: string) => value.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&apos;');
 
 export const GET: APIRoute = () => {

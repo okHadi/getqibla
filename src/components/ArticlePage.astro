@@ -2,11 +2,12 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SiteFooter from './SiteFooter.astro';
 import { articles, updatedDate, type Article } from '../content/articles';
+import { SITE_URL } from '../config';
 
 interface Props { article: Article }
 const { article } = Astro.props;
 const path = `/${article.slug}/`;
-const siteUrl = import.meta.env.PUBLIC_SITE_URL || 'https://getqibla.app';
+const siteUrl = SITE_URL;
 const canonicalUrl = new URL(path, siteUrl).toString();
 const related = articles.filter((item) => item.slug !== article.slug && item.slug !== 'privacy').slice(0, 4);
 const graph: object[] = [

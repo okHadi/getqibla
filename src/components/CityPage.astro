@@ -3,6 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import SiteFooter from './SiteFooter.astro';
 import { calculateQibla } from '../lib/qibla';
 import { qiblaCities, type QiblaCity } from '../content/cities';
+import { SITE_URL } from '../config';
 
 interface Props { city: QiblaCity }
 const { city } = Astro.props;
@@ -14,7 +15,7 @@ const cardinal = cardinals[Math.round(result.bearing / 45) % 8];
 const path = `/qibla-direction/${city.slug}/`;
 const title = `Qibla Direction in ${city.city} – ${angle}° ${cardinal} | GetQibla`;
 const description = `The Qibla direction in ${city.city}, ${city.country} is ${angle}° from true north, toward ${cardinal}. See the angle and open the live Qibla compass.`;
-const siteUrl = import.meta.env.PUBLIC_SITE_URL || 'https://getqibla.app';
+const siteUrl = SITE_URL;
 const canonicalUrl = new URL(path,siteUrl).toString();
 const schema = [
   {'@context':'https://schema.org','@type':'WebPage','@id':canonicalUrl,url:canonicalUrl,name:title,description,dateModified:'2026-07-18',about:{'@type':'Thing',name:'Qibla direction'}},

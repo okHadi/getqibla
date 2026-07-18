@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import { localeCodes, localePaths, type SupportedLocale } from '../i18n';
+import { SITE_URL } from '../config';
 
 interface Props {
   title: string;
@@ -23,7 +24,7 @@ const {
   localizedHome = false,
   article = false,
 } = Astro.props;
-const siteUrl = import.meta.env.PUBLIC_SITE_URL || 'https://getqibla.app';
+const siteUrl = SITE_URL;
 const canonicalUrl = new URL(path, siteUrl).toString();
 const imageUrl = new URL('/og-qibla.png', siteUrl).toString();
 const schemas = structuredData ? (Array.isArray(structuredData) ? structuredData : [structuredData]) : [];
