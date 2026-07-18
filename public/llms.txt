@@ -1,36 +1,46 @@
 # GetQibla
 
-> GetQibla is a free, open-source, mobile-first Qibla direction finder. It uses a phone's location and compass to point toward the Kaaba in Makkah.
+> GetQibla is a free, open-source, mobile-first Qibla direction finder. It calculates the initial great-circle bearing to the Kaaba and uses a supported phone compass for a live arrow. Location and sensor readings remain in the browser.
 
-## Main tool
+## Compass
 
-- Main Qibla compass: /
-- Qibla guide and questions: /#qibla-guide
-- Qibla questions and answers: /#qibla-faq
+- English: /
+- Urdu: /ur/
+- Indonesian: /id/
+- Arabic: /ar/
+- Turkish: /tr/
 
-## Qibla facts
+## Guides
 
-- The Qibla is the direction Muslims face during salah (prayer).
-- The Qibla points to the Kaaba in Masjid al-Haram in Makkah, Saudi Arabia.
-- The direction is different for each location; there is no single compass direction for everyone.
-- A Qibla angle is measured clockwise from north: 0° north, 90° east, 180° south, and 270° west.
-- For example, 260° points a little south of due west.
+- Find Qibla on a phone: /how-to-find-qibla-direction/
+- Understand the Qibla angle: /qibla-angle/
+- Fix a Qibla compass: /qibla-compass-not-working/
+- Qibla on iPhone: /qibla-direction-iphone/
+- Qibla on Android: /qibla-direction-android/
+- Find Qibla without a phone compass: /find-qibla-without-compass/
+- Calculation method and limits: /how-qibla-is-calculated/
+- Privacy: /privacy/
 
-## How to find the Qibla on a phone
+## Verified city bearings
 
-1. Open GetQibla and tap Find Qibla.
-2. Allow location access so the app can calculate the direction from where you are.
-3. Allow compass or motion access if the browser asks for it.
-4. Move the phone slowly until the arrow turns green, then face the top of the phone in that direction.
+- New York: /qibla-direction/new-york/
+- Boston: /qibla-direction/boston/
+- London: /qibla-direction/london/
+- Karachi: /qibla-direction/karachi/
+- Toronto: /qibla-direction/toronto/
+- Dubai: /qibla-direction/dubai/
+- Sydney: /qibla-direction/sydney/
+- Machine-readable dataset: /data/qibla-bearings.json
 
-## Calculation and privacy
+## Method
 
-- GetQibla calculates the initial great-circle bearing from the user's coordinates to the Kaaba's fixed coordinates.
-- It compares that Qibla angle with the phone's compass heading to move the arrow as the user turns.
-- The calculation runs in the browser. Location and sensor readings are not sent to a server.
-- No account, ads, or analytics are required by the open-source project.
+- Kaaba coordinates: 21.4224779° N, 39.8251832° E.
+- Bearings are initial great-circle bearings measured clockwise from true north.
+- The live arrow compares the calculated bearing with browser-provided device orientation.
+- Phone readings can be affected by sensor support, calibration, tilt, magnetic declination, metal and magnets.
+- The project does not claim perfect compass accuracy.
 
 ## Source
 
-- GitHub repository: https://github.com/okHadi/getqibla
+- Repository: https://github.com/okHadi/getqibla
 - License: MIT

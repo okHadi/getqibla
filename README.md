@@ -1,6 +1,6 @@
 # GetQibla
 
-A simple, private, mobile-first web app for finding the Qibla direction.
+A simple, private, mobile-first web app for finding the Qibla direction. The interface is available in English, Urdu, Indonesian, Arabic, and Turkish.
 
 ## Run locally
 
@@ -23,9 +23,21 @@ The app gets the device location, calculates the shortest bearing from that loca
 
 Compass and location permissions require HTTPS in production. If a browser cannot provide orientation data, the app keeps the compass visible and shows the computed Qibla angle so the user can use a separate physical compass.
 
+## Public content
+
+- Localized finder pages at `/`, `/ur/`, `/id/`, `/ar/`, and `/tr/`
+- Focused guides covering phone setup, compass troubleshooting, Qibla angles, privacy, and the calculation method
+- Curated city reference pages under `/qibla-direction/`
+- An open, machine-readable reference dataset at `/data/qibla-bearings.json`
+- Search and answer-engine discovery files at `/sitemap.xml`, `/robots.txt`, and `/llms.txt`
+
+City bearings are calculated from each listed city centre and are reference values only. The live finder uses the visitor's actual location for a more relevant result.
+
 ## Configuration
 
 Set `PUBLIC_SITE_URL` before deploying so canonical URLs, the sitemap, and robots.txt point to the public domain. The project currently defaults to `https://getqibla.app`.
+
+Translations should be reviewed by native speakers before they are promoted through paid campaigns or treated as religious guidance.
 
 ## Deploy to Cloudflare Workers
 

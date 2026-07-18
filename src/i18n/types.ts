@@ -1,0 +1,61 @@
+export interface GuideStep { title: string; text: string }
+export interface GuideFaq { question: string; answer: string }
+export interface LocaleCopy {
+  code: 'en' | 'ar' | 'ur' | 'id' | 'tr';
+  name: string;
+  direction: 'ltr' | 'rtl';
+  title: string;
+  description: string;
+  heading: string;
+  languageLabel: string;
+  compassLabel: string;
+  locationAccess: string;
+  calculation: string;
+  start: string;
+  starting: string;
+  requestingLocation: string;
+  requestingCompass: string;
+  movePhone: string;
+  aligned: string;
+  directionLabel: string;
+  angleLabel: string;
+  explainAngle: string;
+  bearingHelp: string;
+  angleSummary: string;
+  cardinals: readonly string[];
+  recalibrate: string;
+  calibrationHint: string;
+  calibrationStatus: string;
+  compassUnavailable: string;
+  compassNoReading: string;
+  compassFallbackText: string;
+  compassFallbackStatus: string;
+  locationUnavailable: string;
+  browserLocationUnavailable: string;
+  browserLocationHelp: string;
+  secureConnection: string;
+  secureConnectionHelp: string;
+  locationDenied: string;
+  locationDeniedHelp: string;
+  locationNotFound: string;
+  locationNotFoundHelp: string;
+  locationTimeout: string;
+  locationTimeoutHelp: string;
+  genericHelp: string;
+  locationStatusUnavailable: string;
+  retry: string;
+  privacy: string;
+  footer: string;
+  guide: {
+    title: string;
+    introduction: string;
+    stepsTitle: string;
+    steps: readonly GuideStep[];
+    calculationTitle: string;
+    calculation: string;
+    factsTitle: string;
+    facts: readonly string[];
+    faqTitle: string;
+    faqs: readonly GuideFaq[];
+  };
+}

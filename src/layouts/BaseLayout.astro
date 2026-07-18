@@ -1,0 +1,60 @@
+---
+import '../styles/global.css';
+import { localeCodes, localePaths, type SupportedLocale } from '../i18n';
+
+interface Props {
+  title: string;
+  description: string;
+  path: string;
+  locale?: SupportedLocale;
+  direction?: 'ltr' | 'rtl';
+  structuredData?: object | object[];
+  localizedHome?: boolean;
+  article?: boolean;
+}
+
+const {
+  title,
+  description,
+  path,
+  locale = 'en',
+  direction = 'ltr',
+  structuredData,
+  localizedHome = false,
+  article = false,
+} = Astro.props;
+const siteUrl = import.meta.env.PUBLIC_SITE_URL || 'https://getqibla.app';
+const canonicalUrl = new URL(path, siteUrl).toString();
+const imageUrl = new URL('/og-qibla.png', siteUrl).toString();
+const schemas = structuredData ? (Array.isArray(structuredData) ? structuredData : [structuredData]) : [];
+---
+<!doctype html>
+<html lang={locale} dir={direction}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#0c0c0b" />
+    <meta name="description" content={description} />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <link rel="canonical" href={canonicalUrl} />
+    {localizedHome && localeCodes.map((code) => <link rel="alternate" hreflang={code} href={new URL(localePaths[code], siteUrl)} />)}
+    {localizedHome && <link rel="alternate" hreflang="x-default" href={new URL('/', siteUrl)} />}
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%230c0c0b'/%3E%3Cpath d='M32 9l9 23-9 23-9-23L32 9z' fill='%23d2b475'/%3E%3Ccircle cx='32' cy='32' r='5' fill='%230c0c0b'/%3E%3C/svg%3E" />
+    <meta property="og:type" content={article ? 'article' : 'website'} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:site_name" content="GetQibla" />
+    <meta property="og:image" content={imageUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="GetQibla compass pointing toward the Qibla" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={imageUrl} />
+    <title>{title}</title>
+    {schemas.map((schema) => <script is:inline type="application/ld+json" set:html={JSON.stringify(schema)} />)}
+  </head>
+  <body><slot /></body>
+</html>

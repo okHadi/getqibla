@@ -1,0 +1,37 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import QiblaFinder from './QiblaFinder.astro';
+import QiblaGuide from './QiblaGuide.astro';
+import SiteFooter from './SiteFooter.astro';
+import { localePaths, type LocaleCopy, type SupportedLocale } from '../i18n';
+
+interface Props { copy: LocaleCopy; locale: SupportedLocale }
+const { copy, locale } = Astro.props;
+const path = localePaths[locale];
+const siteUrl = import.meta.env.PUBLIC_SITE_URL || 'https://getqibla.app';
+const canonicalUrl = new URL(path, siteUrl).toString();
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'WebApplication', '@id': `${canonicalUrl}#app`, name: 'GetQibla', url: canonicalUrl,
+      description: copy.description, applicationCategory: 'UtilitiesApplication', operatingSystem: 'Any',
+      inLanguage: locale, browserRequirements: 'A modern browser with location access; compass access is needed for the live arrow.',
+      isAccessibleForFree: true, offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+      creator: { '@type': 'Person', name: 'Hadi Khan', url: 'https://www.linkedin.com/in/okhadi/', sameAs: ['https://www.linkedin.com/in/okhadi/', 'https://github.com/okHadi'] },
+      license: 'https://opensource.org/license/mit/',
+    },
+    {
+      '@type': 'FAQPage', '@id': `${canonicalUrl}#qibla-faq`, url: `${canonicalUrl}#qibla-faq`, inLanguage: locale,
+      mainEntity: copy.guide.faqs.map((faq) => ({ '@type': 'Question', name: faq.question, acceptedAnswer: { '@type': 'Answer', text: faq.answer } })),
+    },
+  ],
+};
+---
+<BaseLayout title={copy.title} description={copy.description} path={path} locale={locale} direction={copy.direction} structuredData={structuredData} localizedHome>
+  <main>
+    <QiblaFinder copy={copy} locale={locale} />
+    <QiblaGuide copy={copy} locale={locale} />
+    <SiteFooter text={copy.footer} />
+  </main>
+</BaseLayout>

@@ -1,0 +1,9 @@
+---
+import CityPage from '../../components/CityPage.astro';
+import { qiblaCities, type QiblaCity } from '../../content/cities';
+
+export function getStaticPaths() { return qiblaCities.map((city)=>({params:{city:city.slug},props:{city}})); }
+interface Props { city: QiblaCity }
+const { city } = Astro.props;
+---
+<CityPage city={city} />

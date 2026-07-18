@@ -1,35 +1,68 @@
 ---
-import { en } from '../i18n/en';
+import { localeCodes, localePaths, translations, type LocaleCopy, type SupportedLocale } from '../i18n';
+
+interface Props {
+  copy: LocaleCopy;
+  locale: SupportedLocale;
+}
+
+const { copy, locale } = Astro.props;
 
 const tickMarks = Array.from({ length: 36 });
 ---
 
 <section class="finder" aria-labelledby="page-title">
   <div class="finder__intro">
-    <h1 id="page-title">{en.heading}</h1>
+    <h1 id="page-title">{copy.heading}</h1>
     <label class="language-picker">
-      <span>{en.languageLabel}</span>
-      <select data-language aria-label={en.languageLabel}>
-        <option value="en">{en.languageEnglish}</option>
-        <option value="ar" disabled>{en.languageArabic}</option>
-        <option value="ur" disabled>{en.languageUrdu}</option>
+      <span>{copy.languageLabel}</span>
+      <select data-language aria-label={copy.languageLabel}>
+        {localeCodes.map((code) => <option value={localePaths[code]} selected={code === locale}>{translations[code].name}</option>)}
       </select>
     </label>
   </div>
 
-  <div class="compass-panel" data-compass-panel data-state="idle">
+  <div
+    class="compass-panel"
+    data-compass-panel
+    data-state="idle"
+    data-starting={copy.starting}
+    data-start={copy.start}
+    data-requesting-location={copy.requestingLocation}
+    data-requesting-compass={copy.requestingCompass}
+    data-calibration-status={copy.calibrationStatus}
+    data-compass-unavailable={copy.compassUnavailable}
+    data-compass-no-reading={copy.compassNoReading}
+    data-compass-fallback-copy={copy.compassFallbackText}
+    data-compass-fallback-status={copy.compassFallbackStatus}
+    data-location-unavailable={copy.locationUnavailable}
+    data-browser-location-unavailable={copy.browserLocationUnavailable}
+    data-browser-location-help={copy.browserLocationHelp}
+    data-secure-connection={copy.secureConnection}
+    data-secure-connection-help={copy.secureConnectionHelp}
+    data-location-denied={copy.locationDenied}
+    data-location-denied-help={copy.locationDeniedHelp}
+    data-location-not-found={copy.locationNotFound}
+    data-location-not-found-help={copy.locationNotFoundHelp}
+    data-location-timeout={copy.locationTimeout}
+    data-location-timeout-help={copy.locationTimeoutHelp}
+    data-generic-help={copy.genericHelp}
+    data-location-status-unavailable={copy.locationStatusUnavailable}
+    data-cardinals={JSON.stringify(copy.cardinals)}
+    data-angle-summary={copy.angleSummary}
+  >
     <div
       class="compass-status"
       data-status
-      data-move-message={en.movePhone}
-      data-aligned-message={en.aligned}
+      data-move-message={copy.movePhone}
+      data-aligned-message={copy.aligned}
       aria-live="polite"
     >
       <span class="status-dot" aria-hidden="true"></span>
-      <span data-status-text>{en.privacy}</span>
+      <span data-status-text>{copy.privacy}</span>
     </div>
 
-    <div class="compass" data-compass aria-label="Qibla compass" role="img">
+    <div class="compass" data-compass aria-label={copy.compassLabel} role="img">
       <div class="compass__dial" data-dial>
         {
           tickMarks.map((_, index) => (
@@ -46,7 +79,7 @@ const tickMarks = Array.from({ length: 36 });
             ></span>
           ))
         }
-        <span class="compass__direction compass__direction--north">{en.north}</span>
+        <span class="compass__direction compass__direction--north">N</span>
         <span class="compass__direction compass__direction--east">E</span>
         <span class="compass__direction compass__direction--south">S</span>
         <span class="compass__direction compass__direction--west">W</span>
@@ -62,17 +95,17 @@ const tickMarks = Array.from({ length: 36 });
 
     <div class="bearing" data-bearing-block hidden>
       <div class="bearing__item">
-        <span class="bearing__label">{en.direction}</span>
+        <span class="bearing__label">{copy.directionLabel}</span>
         <strong data-cardinal>—</strong>
       </div>
       <div class="bearing__item">
         <span class="bearing__label">
-          <span>{en.bearing}</span>
+          <span>{copy.angleLabel}</span>
           <button
             class="info-button"
             type="button"
             data-bearing-info
-            aria-label="Explain angle from north"
+            aria-label={copy.explainAngle}
             aria-controls="bearing-help"
             aria-expanded="false"
           >
@@ -85,29 +118,29 @@ const tickMarks = Array.from({ length: 36 });
         class="bearing-help"
         id="bearing-help"
         data-bearing-help
-        data-scale-message={en.bearingHelp}
+        data-scale-message={copy.bearingHelp}
         hidden
-      >{en.bearingHelp}</p>
+      >{copy.bearingHelp}</p>
     </div>
 
     <button class="primary-button" type="button" data-start>
-      <span data-start-text>{en.start}</span>
+      <span data-start-text>{copy.start}</span>
       <span class="button-spinner" aria-hidden="true"></span>
     </button>
 
-    <p class="permission-note">{en.locationAccess}</p>
-    <p class="method-copy">{en.calculation}</p>
+    <p class="permission-note">{copy.locationAccess}</p>
+    <p class="method-copy">{copy.calculation}</p>
 
-    <button class="text-button" type="button" data-calibrate hidden>{en.recalibrate}</button>
+    <button class="text-button" type="button" data-calibrate hidden>{copy.recalibrate}</button>
 
     <div class="calibration" data-calibration hidden>
-      <p>{en.calibrationHint}</p>
+      <p>{copy.calibrationHint}</p>
     </div>
 
     <div class="error-state" data-error hidden>
-      <p class="error-state__title" data-error-title>{en.compassUnavailable}</p>
-      <p data-error-copy>{en.compassFallbackText}</p>
-      <button class="secondary-button" type="button" data-retry>{en.retry}</button>
+      <p class="error-state__title" data-error-title>{copy.compassUnavailable}</p>
+      <p data-error-copy>{copy.compassFallbackText}</p>
+      <button class="secondary-button" type="button" data-retry>{copy.retry}</button>
     </div>
   </div>
 
@@ -151,6 +184,10 @@ const tickMarks = Array.from({ length: 36 });
   let headingTimeout: number | null = null;
   const alignmentTolerance = 8;
 
+  function message(key: keyof DOMStringMap, fallback: string): string {
+    return root?.dataset[key] ?? fallback;
+  }
+
   function setState(state: CompassState): void {
     currentState = state;
     root?.setAttribute('data-state', state);
@@ -166,25 +203,26 @@ const tickMarks = Array.from({ length: 36 });
 
   function setBearing(bearing: number): void {
     const rounded = Math.round(normalizeDegrees(bearing));
+    const direction = getCardinalDirection(bearing);
     if (bearingValue) bearingValue.textContent = String(rounded);
-    if (cardinalValue) cardinalValue.textContent = getCardinalDirection(bearing);
+    if (cardinalValue) cardinalValue.textContent = direction;
     if (bearingHelp) {
       const scaleMessage = bearingHelp.dataset.scaleMessage ?? '';
-      bearingHelp.textContent = `${rounded}° is the exact angle. The Qibla is toward ${getCardinalDirection(bearing).toLowerCase()}. ${scaleMessage}`;
+      const summary = message('angleSummary', '{degrees}° is the angle from north. The Qibla is toward {direction}.')
+        .replace('{degrees}', String(rounded))
+        .replace('{direction}', direction.toLocaleLowerCase());
+      bearingHelp.textContent = `${summary} ${scaleMessage}`;
     }
   }
 
   function getCardinalDirection(bearing: number): string {
-    const directions = [
-      'North',
-      'North-east',
-      'East',
-      'South-east',
-      'South',
-      'South-west',
-      'West',
-      'North-west',
-    ];
+    let directions = ['North', 'North-east', 'East', 'South-east', 'South', 'South-west', 'West', 'North-west'];
+    try {
+      const parsed = JSON.parse(root?.dataset.cardinals ?? '[]');
+      if (Array.isArray(parsed) && parsed.length === 8) directions = parsed;
+    } catch {
+      // Keep the English fallback if translated data is unavailable.
+    }
     const index = Math.round(normalizeDegrees(bearing) / 45) % directions.length;
     return directions[index];
   }
@@ -262,7 +300,7 @@ const tickMarks = Array.from({ length: 36 });
     headingReceived = false;
     headingTimeout = window.setTimeout(() => {
       if (currentState === 'ready' && !headingReceived) {
-        showFallback('Your phone did not provide a compass reading.');
+        showFallback(message('compassNoReading', 'Your phone did not provide a compass reading.'));
       }
     }, 6000);
   }
@@ -305,27 +343,27 @@ const tickMarks = Array.from({ length: 36 });
     });
   }
 
-  function showFallback(message = 'Your phone compass is not available here.'): void {
+  function showFallback(fallbackMessage = message('compassUnavailable', 'Your phone compass is not available here.')): void {
     stopOrientation();
     setState('fallback');
     setAlignment(false);
-    if (errorTitle) errorTitle.textContent = message;
-    if (errorCopy) errorCopy.textContent = 'Use the bearing above. This browser did not provide compass data.';
+    if (errorTitle) errorTitle.textContent = fallbackMessage;
+    if (errorCopy) errorCopy.textContent = message('compassFallbackCopy', 'Use the angle above with a separate compass.');
     if (errorState) errorState.hidden = false;
     if (calibrateButton) calibrateButton.hidden = true;
     if (bearingBlock) bearingBlock.hidden = false;
-    setStatus('Compass unavailable. Use the bearing above.');
+    setStatus(message('compassFallbackStatus', 'Compass unavailable. Use the angle above.'));
   }
 
-  function showError(message: string, copy = 'Check your browser permissions, then try again.'): void {
+  function showError(errorMessage: string, copy = message('genericHelp', 'Check your browser permissions, then try again.')): void {
     stopOrientation();
     setState('error');
     setAlignment(false);
-    if (errorTitle) errorTitle.textContent = message;
+    if (errorTitle) errorTitle.textContent = errorMessage;
     if (errorCopy) errorCopy.textContent = copy;
     if (errorState) errorState.hidden = false;
     if (calibrateButton) calibrateButton.hidden = true;
-    setStatus('Location unavailable.');
+    setStatus(message('locationStatusUnavailable', 'Location unavailable.'));
   }
 
   async function begin(): Promise<void> {
@@ -333,16 +371,16 @@ const tickMarks = Array.from({ length: 36 });
 
     setState('starting');
     startButton.disabled = true;
-    if (startText) startText.textContent = 'Finding Qibla…';
+    if (startText) startText.textContent = message('starting', 'Finding Qibla…');
     if (errorState) errorState.hidden = true;
     if (calibration) calibration.hidden = true;
     setAlignment(false);
-    setStatus('Allow compass access to point the arrow.');
+    setStatus(message('requestingCompass', 'Allow compass access to point the arrow.'));
 
     const hasCompass = await requestOrientationPermission();
 
     try {
-      setStatus('Allow location to find your direction.');
+      setStatus(message('requestingLocation', 'Allow location to find your direction.'));
       const position = await requestLocation();
       location = {
         latitude: position.coords.latitude,
@@ -370,30 +408,27 @@ const tickMarks = Array.from({ length: 36 });
       const errorMessage = error instanceof Error ? error.message : '';
 
       if (errorMessage === 'geolocation-unavailable') {
-        showError('This browser cannot provide your location.', 'Try a browser with location access enabled.');
+        showError(message('browserLocationUnavailable', 'This browser cannot provide your location.'), message('browserLocationHelp', 'Try a browser with location access enabled.'));
       } else if (errorMessage === 'secure-context-required') {
-        showError('Location needs a secure connection.', 'Open this site over HTTPS, then try again.');
+        showError(message('secureConnection', 'Location needs a secure connection.'), message('secureConnectionHelp', 'Open this site over HTTPS, then try again.'));
       } else if (code === 1) {
-        showError(
-          'Location access is needed to calculate Qibla.',
-          'Allow location for this site. On a Mac, also allow your browser in System Settings > Privacy & Security > Location Services.',
-        );
+        showError(message('locationDenied', 'Location access is needed to calculate Qibla.'), message('locationDeniedHelp', 'Allow location for this site, then try again.'));
       } else if (code === 2) {
-        showError('Your browser could not find your location.', 'Turn on Location Services, then try again.');
+        showError(message('locationNotFound', 'Your browser could not find your location.'), message('locationNotFoundHelp', 'Turn on Location Services, then try again.'));
       } else if (code === 3) {
-        showError('Location took too long.', 'Move somewhere with a clearer signal, then try again.');
+        showError(message('locationTimeout', 'Location took too long.'), message('locationTimeoutHelp', 'Move somewhere with a clearer signal, then try again.'));
       } else {
-        showError('We could not get your location.');
+        showError(message('locationUnavailable', 'We could not get your location.'));
       }
     } finally {
       startButton.disabled = false;
-      if (startText) startText.textContent = 'Find Qibla';
+      if (startText) startText.textContent = message('start', 'Find Qibla');
     }
   }
 
   function calibrate(): void {
     if (calibration) calibration.hidden = !calibration.hidden;
-    setStatus('Move your phone slowly in a figure eight.');
+    setStatus(message('calibrationStatus', 'Move your phone slowly in a figure eight.'));
   }
 
   startButton?.addEventListener('click', begin);
@@ -408,9 +443,6 @@ const tickMarks = Array.from({ length: 36 });
 
   const languageSelect = document.querySelector<HTMLSelectElement>('[data-language]');
   languageSelect?.addEventListener('change', () => {
-    if (languageSelect.value !== 'en') {
-      setStatus('More languages are coming soon.');
-      languageSelect.value = 'en';
-    }
+    window.location.assign(languageSelect.value);
   });
 </script>

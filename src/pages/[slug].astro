@@ -1,0 +1,11 @@
+---
+import ArticlePage from '../components/ArticlePage.astro';
+import { articles, type Article } from '../content/articles';
+
+export function getStaticPaths() {
+  return articles.map((article) => ({ params: { slug: article.slug }, props: { article } }));
+}
+interface Props { article: Article }
+const { article } = Astro.props;
+---
+<ArticlePage article={article} />
