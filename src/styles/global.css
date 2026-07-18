@@ -1,16 +1,17 @@
 :root {
   color-scheme: dark;
-  --bg: #111211;
-  --surface: #181a18;
-  --surface-raised: #202320;
-  --border: #303430;
-  --border-strong: #4a504b;
-  --text: #f0f1ed;
-  --muted: #a5aaa4;
-  --soft: #777d77;
-  --accent: #92d6ae;
-  --accent-strong: #b9e9c9;
-  --danger: #e8a2a2;
+  --canvas: #0c0c0b;
+  --surface: #131312;
+  --surface-raised: #191918;
+  --line: #292927;
+  --line-strong: #484844;
+  --text: #efeee9;
+  --muted: #9a9993;
+  --faint: #676660;
+  --sand: #d2b475;
+  --sand-light: #ead7ab;
+  --north: #d86d63;
+  --danger: #dc847d;
   font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -22,19 +23,20 @@
 
 html {
   min-width: 320px;
-  background: var(--bg);
+  background: var(--canvas);
 }
 
 body {
   min-width: 320px;
   min-height: 100svh;
   margin: 0;
-  background: var(--bg);
+  background: var(--canvas);
   color: var(--text);
 }
 
 button,
 select {
+  min-height: 44px;
   font: inherit;
 }
 
@@ -44,11 +46,6 @@ a {
   -webkit-tap-highlight-color: transparent;
 }
 
-button,
-select {
-  min-height: 44px;
-}
-
 button {
   cursor: pointer;
 }
@@ -56,7 +53,7 @@ button {
 button:focus-visible,
 select:focus-visible,
 a:focus-visible {
-  outline: 2px solid var(--accent-strong);
+  outline: 2px solid var(--sand-light);
   outline-offset: 3px;
 }
 
@@ -78,7 +75,7 @@ a {
 
 .site-header,
 .site-footer {
-  width: min(100% - 32px, 1120px);
+  width: min(100% - 32px, 960px);
   margin-inline: auto;
 }
 
@@ -86,29 +83,26 @@ a {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: max(18px, env(safe-area-inset-top)) 0 14px;
+  padding: max(20px, env(safe-area-inset-top)) 0 18px;
+  border-bottom: 1px solid var(--line);
 }
 
 .brand {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
+  gap: 9px;
   color: var(--text);
-  font-size: 0.95rem;
-  font-weight: 700;
+  font-size: 0.9rem;
+  font-weight: 650;
   letter-spacing: -0.02em;
   text-decoration: none;
 }
 
 .brand-mark {
   position: relative;
-  display: grid;
-  width: 28px;
-  height: 28px;
-  place-items: center;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  background: var(--surface);
+  display: block;
+  width: 22px;
+  height: 22px;
 }
 
 .brand-mark::before,
@@ -120,32 +114,38 @@ a {
 }
 
 .brand-mark::before {
-  width: 2px;
-  height: 18px;
-  background: var(--accent);
+  top: 1px;
+  left: 10px;
+  width: 1px;
+  height: 20px;
+  background: var(--sand);
 }
 
 .brand-mark::after {
-  width: 18px;
-  height: 2px;
-  background: var(--accent);
+  top: 10px;
+  left: 1px;
+  width: 20px;
+  height: 1px;
+  background: var(--sand);
 }
 
 .brand-mark span {
+  top: 8px;
+  left: 8px;
   width: 5px;
   height: 5px;
   border-radius: 50%;
-  background: var(--accent-strong);
+  background: var(--sand-light);
 }
 
 .language-picker select {
-  min-height: 38px;
-  padding: 0 30px 0 12px;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  background: var(--surface);
+  min-height: 36px;
+  padding: 0 28px 0 10px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--canvas);
   color: var(--muted);
-  font-size: 0.78rem;
+  font-size: 0.76rem;
 }
 
 main {
@@ -155,21 +155,11 @@ main {
 .finder {
   width: min(100% - 32px, 640px);
   margin: 0 auto;
-  padding: 42px 0 48px;
+  padding: 44px 0 52px;
 }
 
 .finder__intro {
-  text-align: center;
-}
-
-.eyebrow {
-  margin: 0 0 10px;
-  color: var(--accent);
-  font-size: 0.68rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  line-height: 1.2;
-  text-transform: uppercase;
+  max-width: 34rem;
 }
 
 h1,
@@ -179,43 +169,34 @@ p {
 }
 
 h1 {
-  margin-bottom: 12px;
-  font-size: clamp(2rem, 8vw, 3.25rem);
-  font-weight: 650;
-  letter-spacing: -0.055em;
-  line-height: 1;
+  margin-bottom: 10px;
+  font-size: clamp(2rem, 8vw, 2.75rem);
+  font-weight: 620;
+  letter-spacing: -0.045em;
+  line-height: 1.05;
 }
 
 .intro-copy {
-  max-width: 32rem;
-  margin: 0 auto;
+  margin: 0;
   color: var(--muted);
-  font-size: 0.95rem;
-  line-height: 1.5;
+  font-size: 0.94rem;
+  line-height: 1.55;
 }
 
 .compass-panel {
   position: relative;
   display: flex;
-  min-height: 548px;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  margin-top: 30px;
-  padding: 26px 20px 28px;
-  overflow: hidden;
-  border: 1px solid var(--border);
-  border-radius: 18px;
-  background: var(--surface);
+  margin-top: 38px;
 }
 
 .compass-status {
-  position: absolute;
-  top: 20px;
   display: inline-flex;
-  max-width: calc(100% - 32px);
+  max-width: 100%;
   align-items: center;
   gap: 8px;
+  margin-bottom: 22px;
   color: var(--muted);
   font-size: 0.72rem;
   line-height: 1.35;
@@ -223,39 +204,44 @@ h1 {
 }
 
 .status-dot {
-  width: 7px;
-  height: 7px;
+  width: 5px;
+  height: 5px;
   flex: 0 0 auto;
   border-radius: 50%;
-  background: var(--accent);
+  background: var(--sand);
 }
 
 .compass {
   position: relative;
-  width: min(74vw, 340px);
+  width: min(82vw, 360px);
   aspect-ratio: 1;
-  margin: 30px auto 22px;
+  margin: 0 auto 24px;
 }
 
 .compass__dial {
   position: relative;
   width: 100%;
   height: 100%;
-  border: 2px solid var(--border-strong);
+  border: 1px solid var(--line-strong);
   border-radius: 50%;
   background: var(--surface);
 }
 
-.compass__dial::before {
+.compass__dial::before,
+.compass__dial::after {
   position: absolute;
-  inset: 13px;
-  border: 1px solid var(--border);
   border-radius: 50%;
   content: "";
 }
 
-.compass__glow {
-  display: none;
+.compass__dial::before {
+  inset: 12px;
+  border: 1px solid var(--line);
+}
+
+.compass__dial::after {
+  inset: 29%;
+  border: 1px solid var(--line);
 }
 
 .compass__tick {
@@ -263,7 +249,7 @@ h1 {
   top: 50%;
   left: calc(50% - 0.5px);
   width: 1px;
-  height: 46%;
+  height: 47%;
   transform: translateY(-100%) rotate(var(--tick-angle));
   transform-origin: 50% 100%;
   z-index: 1;
@@ -274,9 +260,14 @@ h1 {
   right: 0;
   bottom: 0;
   left: 0;
-  height: 8px;
-  background: var(--border-strong);
+  height: 5px;
+  background: var(--line-strong);
   content: "";
+}
+
+.compass__tick--medium::after {
+  height: 9px;
+  background: var(--faint);
 }
 
 .compass__tick--major {
@@ -284,82 +275,87 @@ h1 {
 }
 
 .compass__tick--major::after {
-  height: 14px;
+  height: 15px;
   background: var(--muted);
+}
+
+.compass__dial > .compass__tick:first-of-type::after {
+  background: var(--north);
 }
 
 .compass__direction {
   position: absolute;
   color: var(--muted);
-  font-size: 0.72rem;
+  font-size: 0.68rem;
   font-weight: 700;
+  letter-spacing: 0.04em;
   z-index: 1;
 }
 
 .compass__direction--north {
-  top: 8.5%;
+  top: 9%;
   left: 50%;
-  color: var(--accent-strong);
+  color: var(--north);
   transform: translateX(-50%);
 }
 
 .compass__direction--east {
   top: 50%;
-  right: 8.5%;
+  right: 9%;
   transform: translateY(-50%);
 }
 
 .compass__direction--south {
-  bottom: 8.5%;
+  bottom: 9%;
   left: 50%;
   transform: translateX(-50%);
 }
 
 .compass__direction--west {
   top: 50%;
-  left: 8.5%;
+  left: 9%;
   transform: translateY(-50%);
 }
 
 .compass__arrow {
   position: absolute;
-  top: 21%;
+  top: 18%;
   left: calc(50% - 16px);
   width: 32px;
-  height: 58%;
+  height: 64%;
   transform: rotate(var(--arrow-rotation, 0deg));
   transform-origin: center;
-  transition: transform 180ms ease-out;
+  transition: transform 160ms linear, opacity 160ms ease;
   z-index: 2;
 }
 
 .compass__arrow-head {
   position: absolute;
   top: 0;
-  left: 8px;
-  width: 16px;
-  height: 25px;
+  left: 7px;
+  width: 18px;
+  height: 72px;
   clip-path: polygon(50% 0, 100% 100%, 50% 78%, 0 100%);
-  background: var(--accent);
+  background: var(--sand);
 }
 
 .compass__arrow-stem {
   position: absolute;
-  top: 21px;
+  top: 64px;
   left: 15px;
   width: 2px;
-  height: calc(100% - 42px);
-  background: var(--accent);
+  height: calc(100% - 128px);
+  background: var(--sand);
 }
 
 .compass__arrow-tail {
   position: absolute;
   bottom: 0;
-  left: 9px;
-  width: 14px;
-  height: 21px;
-  clip-path: polygon(50% 100%, 100% 0, 50% 23%, 0 0);
-  background: var(--muted);
+  left: 7px;
+  width: 18px;
+  height: 72px;
+  clip-path: polygon(50% 100%, 100% 0, 50% 22%, 0 0);
+  background: var(--faint);
 }
 
 .compass__center {
@@ -367,10 +363,10 @@ h1 {
   top: 50%;
   left: 50%;
   display: grid;
-  width: 36px;
-  height: 36px;
+  width: 34px;
+  height: 34px;
   place-items: center;
-  border: 1px solid var(--border-strong);
+  border: 1px solid var(--line-strong);
   border-radius: 50%;
   background: var(--surface-raised);
   transform: translate(-50%, -50%);
@@ -379,10 +375,10 @@ h1 {
 
 .kaaba-mark {
   display: block;
-  width: 10px;
-  height: 10px;
-  border: 2px solid var(--accent-strong);
-  background: var(--accent);
+  width: 9px;
+  height: 9px;
+  border: 1px solid var(--sand-light);
+  background: var(--sand);
 }
 
 .bearing {
@@ -395,41 +391,44 @@ h1 {
 
 .bearing__label {
   margin-right: 3px;
-  font-size: 0.8rem;
+  font-size: 0.78rem;
 }
 
 .bearing strong {
   color: var(--text);
-  font-size: 1.4rem;
-  letter-spacing: -0.04em;
+  font-size: 1.35rem;
+  font-weight: 650;
+  letter-spacing: -0.03em;
 }
 
 .bearing__unit {
-  color: var(--soft);
-  font-size: 0.82rem;
+  color: var(--faint);
+  font-size: 0.8rem;
 }
 
 .primary-button,
 .secondary-button {
   display: inline-flex;
+  width: min(100%, 360px);
+  min-height: 48px;
   align-items: center;
   justify-content: center;
-  border-radius: 9px;
-  font-weight: 700;
-  transition: background-color 160ms ease, border-color 160ms ease, transform 160ms ease;
+  padding: 0 20px;
+  border-radius: 7px;
+  font-size: 0.86rem;
+  font-weight: 650;
+  transition: background-color 140ms ease, border-color 140ms ease, transform 140ms ease;
 }
 
 .primary-button {
-  min-width: 172px;
-  padding: 0 22px;
-  border: 1px solid var(--accent);
-  background: var(--accent);
-  color: #0d1a12;
+  border: 1px solid var(--text);
+  background: var(--text);
+  color: var(--canvas);
 }
 
 .primary-button:hover {
-  background: var(--accent-strong);
-  border-color: var(--accent-strong);
+  border-color: #ffffff;
+  background: #ffffff;
 }
 
 .primary-button:active,
@@ -440,16 +439,16 @@ h1 {
 
 .primary-button:disabled {
   cursor: wait;
-  opacity: 0.72;
+  opacity: 0.65;
 }
 
 .button-spinner {
   display: none;
-  width: 15px;
-  height: 15px;
+  width: 14px;
+  height: 14px;
   margin-left: 8px;
-  border: 2px solid rgb(13 26 18 / 0.3);
-  border-top-color: #0d1a12;
+  border: 2px solid rgb(12 12 11 / 0.25);
+  border-top-color: var(--canvas);
   border-radius: 50%;
   animation: spin 700ms linear infinite;
 }
@@ -461,60 +460,59 @@ h1 {
 .text-button {
   min-height: 40px;
   margin-top: 6px;
-  padding: 0 12px;
+  padding: 0 10px;
   border: 0;
   background: transparent;
-  color: var(--accent-strong);
-  font-size: 0.78rem;
+  color: var(--sand-light);
+  font-size: 0.76rem;
 }
 
 .calibration {
-  max-width: 280px;
-  margin-top: 7px;
+  max-width: 300px;
+  margin-top: 8px;
   color: var(--muted);
   font-size: 0.78rem;
-  line-height: 1.45;
+  line-height: 1.5;
   text-align: center;
 }
 
 .error-state {
-  max-width: 300px;
-  margin-top: 16px;
+  width: min(100%, 380px);
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
   color: var(--muted);
   font-size: 0.8rem;
-  line-height: 1.45;
-  text-align: center;
+  line-height: 1.5;
+  text-align: left;
 }
 
 .error-state__title {
   margin-bottom: 5px;
   color: var(--danger);
-  font-weight: 700;
+  font-weight: 650;
 }
 
 .error-state p:not(.error-state__title) {
-  margin-bottom: 14px;
+  margin-bottom: 16px;
 }
 
 .secondary-button {
-  min-width: 120px;
-  padding: 0 16px;
-  border: 1px solid var(--border);
+  width: 100%;
+  border: 1px solid var(--line-strong);
   background: var(--surface-raised);
   color: var(--text);
-  font-size: 0.8rem;
 }
 
 .secondary-button:hover {
-  border-color: var(--accent);
+  border-color: var(--muted);
 }
 
 .map-fallback {
-  margin-top: 20px;
-  padding: 20px;
-  border: 1px solid var(--border);
-  border-radius: 18px;
-  background: var(--surface);
+  margin-top: 28px;
+  padding-top: 24px;
+  border-top: 1px solid var(--line);
 }
 
 .section-heading {
@@ -526,15 +524,15 @@ h1 {
 
 h2 {
   margin-bottom: 8px;
-  font-size: 1.12rem;
+  font-size: 1rem;
   font-weight: 650;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.02em;
 }
 
 .fallback-bearing {
-  color: var(--accent-strong);
-  font-size: 1.1rem;
-  font-weight: 700;
+  color: var(--sand-light);
+  font-size: 1rem;
+  font-weight: 650;
   white-space: nowrap;
 }
 
@@ -542,44 +540,44 @@ h2 {
 .how-it-works p {
   margin-bottom: 0;
   color: var(--muted);
-  font-size: 0.82rem;
+  font-size: 0.8rem;
   line-height: 1.55;
 }
 
 .world-map-wrap {
   margin-top: 18px;
   overflow: hidden;
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  background: #151815;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: var(--surface);
 }
 
 .world-map {
   display: block;
   width: 100%;
   height: auto;
-  color: rgb(146 214 174 / 0.13);
+  color: rgb(210 180 117 / 0.12);
 }
 
 .land {
-  fill: rgb(146 214 174 / 0.16);
-  stroke: rgb(146 214 174 / 0.2);
+  fill: rgb(210 180 117 / 0.12);
+  stroke: rgb(210 180 117 / 0.22);
   stroke-width: 0.5;
 }
 
 .map-route {
-  stroke: var(--accent-strong);
+  stroke: var(--sand-light);
   stroke-dasharray: 3 3;
   stroke-width: 1.4;
 }
 
 .map-point {
-  stroke: #151815;
+  stroke: var(--surface);
   stroke-width: 1;
 }
 
 .map-point--user {
-  fill: var(--accent-strong);
+  fill: var(--sand-light);
 }
 
 .map-point--kaaba {
@@ -587,7 +585,7 @@ h2 {
 }
 
 .map-label {
-  fill: var(--accent-strong);
+  fill: var(--sand-light);
   font-size: 6px;
   font-weight: 700;
 }
@@ -597,11 +595,9 @@ h2 {
 }
 
 .how-it-works {
-  margin-top: 28px;
-  padding: 0;
-  border: 0;
-  background: transparent;
-  text-align: center;
+  margin-top: 36px;
+  padding-top: 24px;
+  border-top: 1px solid var(--line);
 }
 
 .how-it-works h2 {
@@ -613,9 +609,10 @@ h2 {
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  padding: 0 0 max(26px, env(safe-area-inset-bottom));
-  color: var(--soft);
-  font-size: 0.72rem;
+  padding: 22px 0 max(28px, env(safe-area-inset-bottom));
+  border-top: 1px solid var(--line);
+  color: var(--faint);
+  font-size: 0.7rem;
 }
 
 .site-footer p {
@@ -628,17 +625,12 @@ h2 {
 }
 
 .site-footer a:hover {
-  color: var(--accent-strong);
+  color: var(--text);
 }
 
 .compass-panel[data-state="idle"] .compass__arrow,
 .compass-panel[data-state="starting"] .compass__arrow {
-  opacity: 0.24;
-}
-
-.compass-panel[data-state="error"],
-.compass-panel[data-state="fallback"] {
-  min-height: 290px;
+  opacity: 0.18;
 }
 
 .compass-panel[data-state="error"] .compass,
@@ -665,16 +657,15 @@ h2 {
 @media (min-width: 700px) {
   .site-header,
   .site-footer {
-    width: min(100% - 64px, 1120px);
+    width: min(100% - 64px, 960px);
   }
 
   .finder {
-    padding-top: 46px;
+    padding-top: 58px;
   }
 
   .compass-panel {
-    margin-top: 30px;
-    padding-inline: 36px;
+    margin-top: 44px;
   }
 }
 
