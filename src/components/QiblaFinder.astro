@@ -1,0 +1,355 @@
+---
+import { en } from '../i18n/en';
+
+const tickMarks = Array.from({ length: 24 });
+---
+
+<section class="finder" aria-labelledby="page-title">
+  <div class="finder__intro">
+    <p class="eyebrow">{en.brand}</p>
+    <h1 id="page-title">{en.title}</h1>
+    <p class="intro-copy">{en.subtitle}</p>
+  </div>
+
+  <div class="compass-panel" data-compass-panel data-state="idle">
+    <div class="compass-status" data-status aria-live="polite">
+      <span class="status-dot" aria-hidden="true"></span>
+      <span data-status-text>{en.privacy}</span>
+    </div>
+
+    <div class="compass" data-compass aria-label="Qibla compass" role="img">
+      <div class="compass__glow" aria-hidden="true"></div>
+      <div class="compass__dial" data-dial>
+        {
+          tickMarks.map((_, index) => (
+            <span
+              class:list={['compass__tick', { 'compass__tick--major': index % 6 === 0 }]}
+              style={`--tick-angle: ${index * 15}deg`}
+              aria-hidden="true"
+            ></span>
+          ))
+        }
+        <span class="compass__direction compass__direction--north">{en.north}</span>
+        <span class="compass__direction compass__direction--east">E</span>
+        <span class="compass__direction compass__direction--south">S</span>
+        <span class="compass__direction compass__direction--west">W</span>
+        <div class="compass__arrow" data-qibla-arrow aria-hidden="true">
+          <span class="compass__arrow-head"></span>
+          <span class="compass__arrow-stem"></span>
+          <span class="compass__arrow-tail"></span>
+        </div>
+        <div class="compass__center" aria-hidden="true">
+          <span class="kaaba-mark"></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="bearing" data-bearing-block hidden>
+      <span class="bearing__label">{en.qibla}</span>
+      <strong data-bearing>—</strong>
+      <span class="bearing__unit">°</span>
+    </div>
+
+    <button class="primary-button" type="button" data-start>
+      <span data-start-text>{en.start}</span>
+      <span class="button-spinner" aria-hidden="true"></span>
+    </button>
+
+    <button class="text-button" type="button" data-calibrate hidden>{en.recalibrate}</button>
+
+    <div class="calibration" data-calibration hidden>
+      <p>{en.calibrationHint}</p>
+    </div>
+
+    <div class="error-state" data-error hidden>
+      <p class="error-state__title" data-error-title>{en.compassUnavailable}</p>
+      <p data-error-copy>{en.mapFallbackText}</p>
+      <button class="secondary-button" type="button" data-retry>{en.retry}</button>
+    </div>
+  </div>
+
+  <div class="map-fallback" data-map-fallback hidden>
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">{en.method}</p>
+        <h2>{en.mapFallbackTitle}</h2>
+      </div>
+      <span class="fallback-bearing" data-fallback-bearing>—°</span>
+    </div>
+    <p class="section-copy">{en.mapFallbackText}</p>
+    <div class="world-map-wrap">
+      <svg
+        class="world-map"
+        viewBox="0 0 360 180"
+        role="img"
+        aria-label={en.mapFallbackAria}
+        data-world-map
+      >
+        <defs>
+          <pattern id="map-grid" width="30" height="30" patternUnits="userSpaceOnUse">
+            <path d="M 30 0 L 0 0 0 30" fill="none" stroke="currentColor" stroke-width="0.35" opacity="0.35"></path>
+          </pattern>
+        </defs>
+        <rect width="360" height="180" fill="url(#map-grid)"></rect>
+        <path class="land land--americas" d="M32 37 48 26 69 30 82 45 75 54 79 69 69 82 61 78 54 91 46 85 40 69 31 59 34 49Z"></path>
+        <path class="land land--eurasia" d="M160 35 174 24 196 27 211 22 234 29 250 26 270 38 292 39 306 53 296 61 280 60 271 68 252 62 236 70 220 63 206 71 194 62 178 64 166 53Z"></path>
+        <path class="land land--africa" d="M177 69 194 66 208 77 205 94 196 111 185 130 173 112 169 93Z"></path>
+        <path class="land land--australia" d="M278 123 294 116 314 122 324 135 314 147 295 145 283 136Z"></path>
+        <line class="map-route" data-map-route x1="0" y1="0" x2="0" y2="0"></line>
+        <circle class="map-point map-point--user" data-map-user cx="0" cy="0" r="3"></circle>
+        <circle class="map-point map-point--kaaba" data-map-kaaba cx="219.8" cy="68.6" r="3"></circle>
+        <text class="map-label" data-map-user-label x="0" y="0">You</text>
+        <text class="map-label map-label--kaaba" x="225" y="67">Kaaba</text>
+      </svg>
+    </div>
+  </div>
+
+  <div class="how-it-works">
+    <h2>{en.method}</h2>
+    <p>{en.methodText}</p>
+  </div>
+</section>
+
+<script>
+  import {
+    KAABA,
+    calculateQibla,
+    getRelativeQiblaBearing,
+    normalizeDegrees,
+    projectToMap,
+    type Coordinates,
+  } from '../lib/qibla';
+
+  type CompassState = 'idle' | 'starting' | 'ready' | 'fallback' | 'error';
+
+  const root = document.querySelector<HTMLElement>('[data-compass-panel]');
+  const startButton = document.querySelector<HTMLButtonElement>('[data-start]');
+  const startText = document.querySelector<HTMLElement>('[data-start-text]');
+  const statusText = document.querySelector<HTMLElement>('[data-status-text]');
+  const bearingBlock = document.querySelector<HTMLElement>('[data-bearing-block]');
+  const bearingValue = document.querySelector<HTMLElement>('[data-bearing]');
+  const qiblaArrow = document.querySelector<HTMLElement>('[data-qibla-arrow]');
+  const calibrateButton = document.querySelector<HTMLButtonElement>('[data-calibrate]');
+  const calibration = document.querySelector<HTMLElement>('[data-calibration]');
+  const errorState = document.querySelector<HTMLElement>('[data-error]');
+  const errorTitle = document.querySelector<HTMLElement>('[data-error-title]');
+  const errorCopy = document.querySelector<HTMLElement>('[data-error-copy]');
+  const retryButton = document.querySelector<HTMLButtonElement>('[data-retry]');
+  const mapFallback = document.querySelector<HTMLElement>('[data-map-fallback]');
+  const fallbackBearing = document.querySelector<HTMLElement>('[data-fallback-bearing]');
+  const mapRoute = document.querySelector<SVGLineElement>('[data-map-route]');
+  const mapUser = document.querySelector<SVGCircleElement>('[data-map-user]');
+  const mapUserLabel = document.querySelector<SVGTextElement>('[data-map-user-label]');
+
+  let currentState: CompassState = 'idle';
+  let qiblaBearing = 0;
+  let location: Coordinates | null = null;
+  let orientationListening = false;
+  let headingReceived = false;
+  let headingTimeout: number | null = null;
+
+  function setState(state: CompassState): void {
+    currentState = state;
+    root?.setAttribute('data-state', state);
+  }
+
+  function setStatus(message: string): void {
+    if (statusText) statusText.textContent = message;
+  }
+
+  function setBearing(bearing: number): void {
+    const rounded = Math.round(normalizeDegrees(bearing));
+    if (bearingValue) bearingValue.textContent = String(rounded);
+    if (fallbackBearing) fallbackBearing.textContent = `${rounded}°`;
+  }
+
+  function setMap(locationToShow: Coordinates): void {
+    const userPoint = projectToMap(locationToShow);
+    const kaabaPoint = projectToMap(KAABA);
+
+    mapRoute?.setAttribute('x1', String(userPoint.x));
+    mapRoute?.setAttribute('y1', String(userPoint.y));
+    mapRoute?.setAttribute('x2', String(kaabaPoint.x));
+    mapRoute?.setAttribute('y2', String(kaabaPoint.y));
+    mapUser?.setAttribute('cx', String(userPoint.x));
+    mapUser?.setAttribute('cy', String(userPoint.y));
+    mapUserLabel?.setAttribute('x', String(userPoint.x + 6));
+    mapUserLabel?.setAttribute('y', String(userPoint.y - 6));
+  }
+
+  function getOrientationAngle(): number {
+    return Number(window.screen.orientation?.angle ?? 0);
+  }
+
+  function readHeading(event: DeviceOrientationEvent): number | null {
+    const webkitHeading = (event as DeviceOrientationEvent & { webkitCompassHeading?: number }).webkitCompassHeading;
+
+    if (typeof webkitHeading === 'number' && Number.isFinite(webkitHeading)) {
+      return normalizeDegrees(webkitHeading);
+    }
+
+    if (typeof event.alpha !== 'number' || !Number.isFinite(event.alpha)) return null;
+
+    return normalizeDegrees(360 - event.alpha + getOrientationAngle());
+  }
+
+  function handleOrientation(event: DeviceOrientationEvent): void {
+    if (currentState !== 'ready') return;
+
+    const heading = readHeading(event);
+    if (heading === null) return;
+
+    headingReceived = true;
+    if (headingTimeout !== null) window.clearTimeout(headingTimeout);
+    const rotation = getRelativeQiblaBearing(qiblaBearing, heading);
+    qiblaArrow?.style.setProperty('--arrow-rotation', `${rotation}deg`);
+    setStatus('Turn your phone until the arrow points up.');
+  }
+
+  function stopOrientation(): void {
+    if (orientationListening) {
+      window.removeEventListener('deviceorientation', handleOrientation, true);
+      window.removeEventListener('deviceorientationabsolute', handleOrientation, true);
+    }
+    if (headingTimeout !== null) window.clearTimeout(headingTimeout);
+    headingTimeout = null;
+    orientationListening = false;
+  }
+
+  function startOrientation(): boolean {
+    if (!('DeviceOrientationEvent' in window)) return false;
+
+    window.addEventListener('deviceorientation', handleOrientation, true);
+    window.addEventListener('deviceorientationabsolute', handleOrientation, true);
+    orientationListening = true;
+    return true;
+  }
+
+  function waitForHeading(): void {
+    headingReceived = false;
+    headingTimeout = window.setTimeout(() => {
+      if (currentState === 'ready' && !headingReceived) {
+        showFallback('Your phone did not provide a compass reading.');
+      }
+    }, 4000);
+  }
+
+  async function requestOrientationPermission(): Promise<boolean> {
+    const orientation = window.DeviceOrientationEvent as (typeof DeviceOrientationEvent & {
+      requestPermission?: () => Promise<'granted' | 'denied'>;
+    }) | undefined;
+
+    if (!orientation) return false;
+
+    if (typeof orientation.requestPermission !== 'function') return startOrientation();
+
+    try {
+      const permission = await orientation.requestPermission();
+      return permission === 'granted' && startOrientation();
+    } catch {
+      return false;
+    }
+  }
+
+  function requestLocation(): Promise<GeolocationPosition> {
+    return new Promise((resolve, reject) => {
+      if (!navigator.geolocation) {
+        reject(new Error('geolocation-unavailable'));
+        return;
+      }
+
+      navigator.geolocation.getCurrentPosition(resolve, reject, {
+        enableHighAccuracy: true,
+        timeout: 12000,
+        maximumAge: 0,
+      });
+    });
+  }
+
+  function showFallback(message = 'Your phone compass is not available here.'): void {
+    stopOrientation();
+    setState('fallback');
+    if (errorTitle) errorTitle.textContent = message;
+    if (errorCopy) errorCopy.textContent = 'The map shows the direction from your location to the Kaaba.';
+    if (errorState) errorState.hidden = false;
+    if (mapFallback) mapFallback.hidden = false;
+    if (calibrateButton) calibrateButton.hidden = true;
+    if (bearingBlock) bearingBlock.hidden = false;
+    setStatus('Compass unavailable. Use the map below.');
+  }
+
+  function showError(message: string): void {
+    stopOrientation();
+    setState('error');
+    if (errorTitle) errorTitle.textContent = message;
+    if (errorCopy) errorCopy.textContent = 'Check your browser permissions, then try again.';
+    if (errorState) errorState.hidden = false;
+    if (mapFallback) mapFallback.hidden = true;
+    if (calibrateButton) calibrateButton.hidden = true;
+    setStatus('We need your location to continue.');
+  }
+
+  async function begin(): Promise<void> {
+    if (!startButton || currentState === 'starting') return;
+
+    setState('starting');
+    startButton.disabled = true;
+    if (startText) startText.textContent = 'Finding Qibla…';
+    if (errorState) errorState.hidden = true;
+    if (mapFallback) mapFallback.hidden = true;
+    if (calibration) calibration.hidden = true;
+    setStatus('Allow compass access to point the arrow.');
+
+    const hasCompass = await requestOrientationPermission();
+
+    try {
+      setStatus('Allow location to find your direction.');
+      const position = await requestLocation();
+      location = {
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude,
+      };
+      const result = calculateQibla(location);
+      qiblaBearing = result.bearing;
+      setBearing(qiblaBearing);
+      setMap(location);
+
+      if (bearingBlock) bearingBlock.hidden = false;
+
+      if (hasCompass) {
+        setState('ready');
+        if (calibrateButton) calibrateButton.hidden = false;
+        setStatus('Turn your phone until the arrow points up.');
+        waitForHeading();
+      } else {
+        showFallback();
+      }
+    } catch (error) {
+      const code =
+        typeof error === 'object' && error !== null && 'code' in error
+          ? Number(error.code)
+          : 0;
+      showError(code === 1 ? 'Location access is needed to calculate Qibla.' : 'We could not get your location.');
+    } finally {
+      startButton.disabled = false;
+      if (startText) startText.textContent = 'Find Qibla';
+    }
+  }
+
+  function calibrate(): void {
+    if (calibration) calibration.hidden = !calibration.hidden;
+    setStatus('Move your phone slowly in a figure eight.');
+  }
+
+  startButton?.addEventListener('click', begin);
+  retryButton?.addEventListener('click', begin);
+  calibrateButton?.addEventListener('click', calibrate);
+
+  const languageSelect = document.querySelector<HTMLSelectElement>('[data-language]');
+  languageSelect?.addEventListener('change', () => {
+    if (languageSelect.value !== 'en') {
+      setStatus('More languages are coming soon.');
+      languageSelect.value = 'en';
+    }
+  });
+</script>

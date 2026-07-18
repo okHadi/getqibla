@@ -1,0 +1,8 @@
+# GetQibla
+
+GetQibla is a free, open-source, mobile-first web compass for finding the Qibla direction.
+
+- The Qibla bearing is calculated in the browser from the user's location and the Kaaba's coordinates.
+- Location and compass readings are not sent to a server.
+- The site does not require an account and has no ads or analytics by default.
+- The main tool is available at: /
