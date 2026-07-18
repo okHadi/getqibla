@@ -73,71 +73,6 @@ a {
   border: 0;
 }
 
-.site-header,
-.site-footer {
-  width: min(100% - 32px, 960px);
-  margin-inline: auto;
-}
-
-.site-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: max(20px, env(safe-area-inset-top)) 0 18px;
-  border-bottom: 1px solid var(--line);
-}
-
-.brand {
-  display: inline-flex;
-  align-items: center;
-  gap: 9px;
-  color: var(--text);
-  font-size: 0.9rem;
-  font-weight: 650;
-  letter-spacing: -0.02em;
-  text-decoration: none;
-}
-
-.brand-mark {
-  position: relative;
-  display: block;
-  width: 22px;
-  height: 22px;
-}
-
-.brand-mark::before,
-.brand-mark::after,
-.brand-mark span {
-  position: absolute;
-  display: block;
-  content: "";
-}
-
-.brand-mark::before {
-  top: 1px;
-  left: 10px;
-  width: 1px;
-  height: 20px;
-  background: var(--sand);
-}
-
-.brand-mark::after {
-  top: 10px;
-  left: 1px;
-  width: 20px;
-  height: 1px;
-  background: var(--sand);
-}
-
-.brand-mark span {
-  top: 8px;
-  left: 8px;
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: var(--sand-light);
-}
-
 .language-picker select {
   min-height: 36px;
   padding: 0 28px 0 10px;
@@ -155,11 +90,19 @@ main {
 .finder {
   width: min(100% - 32px, 640px);
   margin: 0 auto;
-  padding: 44px 0 52px;
+  padding: max(18px, env(safe-area-inset-top)) 0 max(28px, env(safe-area-inset-bottom));
+}
+
+.top-controls {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 34px;
 }
 
 .finder__intro {
   max-width: 34rem;
+  margin: 0 auto;
+  text-align: center;
 }
 
 h1,
@@ -177,10 +120,23 @@ h1 {
 }
 
 .intro-copy {
-  margin: 0;
+  margin: 0 auto;
   color: var(--muted);
   font-size: 0.94rem;
   line-height: 1.55;
+}
+
+.permission-note {
+  max-width: 440px;
+  margin: 20px auto 0;
+  padding: 11px 14px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: var(--surface);
+  color: var(--text);
+  font-size: 0.78rem;
+  line-height: 1.45;
+  text-align: center;
 }
 
 .compass-panel {
@@ -382,28 +338,47 @@ h1 {
 }
 
 .bearing {
-  display: flex;
-  align-items: baseline;
-  gap: 4px;
+  display: grid;
+  width: min(100%, 360px);
+  grid-template-columns: 1fr 1fr;
   margin: 0 0 18px;
-  color: var(--muted);
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: var(--surface);
+}
+
+.bearing__item {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px 14px;
+}
+
+.bearing__item + .bearing__item {
+  border-left: 1px solid var(--line);
 }
 
 .bearing__label {
-  margin-right: 3px;
+  color: var(--faint);
   font-size: 0.78rem;
 }
 
 .bearing strong {
   color: var(--text);
-  font-size: 1.35rem;
+  overflow: hidden;
+  font-size: 0.95rem;
   font-weight: 650;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.01em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .bearing__unit {
-  color: var(--faint);
-  font-size: 0.8rem;
+  margin-left: 1px;
+  color: var(--muted);
+  font-size: 0.85rem;
 }
 
 .primary-button,
@@ -536,8 +511,7 @@ h2 {
   white-space: nowrap;
 }
 
-.section-copy,
-.how-it-works p {
+.section-copy {
   margin-bottom: 0;
   color: var(--muted);
   font-size: 0.8rem;
@@ -594,37 +568,19 @@ h2 {
   fill: var(--text);
 }
 
-.how-it-works {
-  margin-top: 36px;
-  padding-top: 24px;
-  border-top: 1px solid var(--line);
-}
-
-.how-it-works h2 {
-  margin-bottom: 6px;
-}
-
-.site-footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  padding: 22px 0 max(28px, env(safe-area-inset-bottom));
-  border-top: 1px solid var(--line);
+.attribution {
+  margin: 34px 0 0;
   color: var(--faint);
   font-size: 0.7rem;
+  text-align: center;
 }
 
-.site-footer p {
-  margin: 0;
-}
-
-.site-footer a {
+.attribution a {
   color: var(--muted);
   text-decoration: none;
 }
 
-.site-footer a:hover {
+.attribution a:hover {
   color: var(--text);
 }
 
@@ -638,7 +594,6 @@ h2 {
 .compass-panel[data-state="error"] .compass-status,
 .compass-panel[data-state="fallback"] .compass-status,
 .compass-panel[data-state="error"] .bearing,
-.compass-panel[data-state="fallback"] .bearing,
 .compass-panel[data-state="error"] .primary-button,
 .compass-panel[data-state="fallback"] .primary-button {
   display: none;
@@ -655,13 +610,8 @@ h2 {
 }
 
 @media (min-width: 700px) {
-  .site-header,
-  .site-footer {
-    width: min(100% - 64px, 960px);
-  }
-
   .finder {
-    padding-top: 58px;
+    padding-top: 24px;
   }
 
   .compass-panel {

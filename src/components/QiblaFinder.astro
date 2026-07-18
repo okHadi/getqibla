@@ -5,9 +5,21 @@ const tickMarks = Array.from({ length: 36 });
 ---
 
 <section class="finder" aria-labelledby="page-title">
+  <div class="top-controls">
+    <label class="language-picker">
+      <span class="sr-only">{en.languageLabel}</span>
+      <select data-language aria-label={en.languageLabel}>
+        <option value="en">{en.languageEnglish}</option>
+        <option value="ar" disabled>{en.languageArabic}</option>
+        <option value="ur" disabled>{en.languageUrdu}</option>
+      </select>
+    </label>
+  </div>
+
   <div class="finder__intro">
     <h1 id="page-title">{en.title}</h1>
     <p class="intro-copy">{en.subtitle}</p>
+    <p class="permission-note">{en.locationAccess}</p>
   </div>
 
   <div class="compass-panel" data-compass-panel data-state="idle">
@@ -49,9 +61,14 @@ const tickMarks = Array.from({ length: 36 });
     </div>
 
     <div class="bearing" data-bearing-block hidden>
-      <span class="bearing__label">{en.qibla}</span>
-      <strong data-bearing>—</strong>
-      <span class="bearing__unit">°</span>
+      <div class="bearing__item">
+        <span class="bearing__label">{en.direction}</span>
+        <strong data-cardinal>—</strong>
+      </div>
+      <div class="bearing__item">
+        <span class="bearing__label">{en.bearing}</span>
+        <strong><span data-bearing>—</span><span class="bearing__unit">°</span></strong>
+      </div>
     </div>
 
     <button class="primary-button" type="button" data-start>
@@ -105,10 +122,9 @@ const tickMarks = Array.from({ length: 36 });
     </div>
   </div>
 
-  <div class="how-it-works">
-    <h2>{en.method}</h2>
-    <p>{en.methodText}</p>
-  </div>
+  <p class="attribution">
+    Sadaqah Jariyah for <a href="https://www.linkedin.com/in/okhadi/" rel="noreferrer">Hadi Khan</a>
+  </p>
 </section>
 
 <script>
@@ -129,6 +145,7 @@ const tickMarks = Array.from({ length: 36 });
   const statusText = document.querySelector<HTMLElement>('[data-status-text]');
   const bearingBlock = document.querySelector<HTMLElement>('[data-bearing-block]');
   const bearingValue = document.querySelector<HTMLElement>('[data-bearing]');
+  const cardinalValue = document.querySelector<HTMLElement>('[data-cardinal]');
   const qiblaArrow = document.querySelector<HTMLElement>('[data-qibla-arrow]');
   const calibrateButton = document.querySelector<HTMLButtonElement>('[data-calibrate]');
   const calibration = document.querySelector<HTMLElement>('[data-calibration]');
@@ -161,7 +178,23 @@ const tickMarks = Array.from({ length: 36 });
   function setBearing(bearing: number): void {
     const rounded = Math.round(normalizeDegrees(bearing));
     if (bearingValue) bearingValue.textContent = String(rounded);
+    if (cardinalValue) cardinalValue.textContent = getCardinalDirection(bearing);
     if (fallbackBearing) fallbackBearing.textContent = `${rounded}°`;
+  }
+
+  function getCardinalDirection(bearing: number): string {
+    const directions = [
+      'North',
+      'North-east',
+      'East',
+      'South-east',
+      'South',
+      'South-west',
+      'West',
+      'North-west',
+    ];
+    const index = Math.round(normalizeDegrees(bearing) / 45) % directions.length;
+    return directions[index];
   }
 
   function setMap(locationToShow: Coordinates): void {

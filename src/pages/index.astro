@@ -38,28 +38,8 @@ const canonicalUrl = new URL('/', siteUrl).toString();
     })} />
   </head>
   <body>
-    <header class="site-header">
-      <a class="brand" href="/" aria-label="GetQibla home">
-        <span class="brand-mark" aria-hidden="true"><span></span></span>
-        <span>GetQibla</span>
-      </a>
-      <label class="language-picker">
-        <span class="sr-only">Language</span>
-        <select data-language aria-label="Language">
-          <option value="en">English</option>
-          <option value="ar" disabled>Arabic (soon)</option>
-          <option value="ur" disabled>Urdu (soon)</option>
-        </select>
-      </label>
-    </header>
-
     <main>
       <QiblaFinder />
     </main>
-
-    <footer class="site-footer">
-      <p>Free and open source.</p>
-      <a href="https://opensource.org/license/mit/" rel="noreferrer">MIT license</a>
-    </footer>
   </body>
 </html>
