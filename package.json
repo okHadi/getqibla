@@ -7,7 +7,10 @@
   "type": "module",
   "scripts": {
     "dev": "astro dev",
+    "cf:dev": "npm run build && wrangler dev",
     "build": "astro build",
+    "deploy": "npm run build && wrangler deploy",
+    "deploy:dry-run": "npm run build && wrangler deploy --dry-run",
     "preview": "astro preview",
     "check": "astro check",
     "test": "vitest run",
@@ -19,6 +22,7 @@
   "devDependencies": {
     "@astrojs/check": "^0.9.9",
     "typescript": "^6.0.3",
-    "vitest": "^4.1.10"
+    "vitest": "^4.1.10",
+    "wrangler": "^4.112.0"
   }
 }
