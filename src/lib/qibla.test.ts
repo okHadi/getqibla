@@ -6,7 +6,6 @@ import {
   calculateQiblaBearing,
   getRelativeQiblaBearing,
   normalizeDegrees,
-  projectToMap,
   shortestAngle,
 } from './qibla';
 
@@ -47,10 +46,5 @@ describe('Qibla calculations', () => {
   it('calculates the shortest arrow rotation', () => {
     expect(getRelativeQiblaBearing(5, 355)).toBe(10);
     expect(getRelativeQiblaBearing(355, 5)).toBe(-10);
-  });
-
-  it('projects coordinates into the local map viewBox', () => {
-    expect(projectToMap({ latitude: 0, longitude: 0 })).toEqual({ x: 180, y: 90 });
-    expect(projectToMap(KAABA).x).toBeCloseTo(219.825, 3);
   });
 });

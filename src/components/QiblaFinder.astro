@@ -5,7 +5,8 @@ const tickMarks = Array.from({ length: 36 });
 ---
 
 <section class="finder" aria-labelledby="page-title">
-  <div class="top-controls">
+  <div class="finder__intro">
+    <h1 id="page-title">{en.title}</h1>
     <label class="language-picker">
       <span class="sr-only">{en.languageLabel}</span>
       <select data-language aria-label={en.languageLabel}>
@@ -14,12 +15,6 @@ const tickMarks = Array.from({ length: 36 });
         <option value="ur" disabled>{en.languageUrdu}</option>
       </select>
     </label>
-  </div>
-
-  <div class="finder__intro">
-    <h1 id="page-title">{en.title}</h1>
-    <p class="intro-copy">{en.subtitle}</p>
-    <p class="permission-note">{en.locationAccess}</p>
   </div>
 
   <div class="compass-panel" data-compass-panel data-state="idle">
@@ -76,6 +71,9 @@ const tickMarks = Array.from({ length: 36 });
       <span class="button-spinner" aria-hidden="true"></span>
     </button>
 
+    <p class="permission-note">{en.locationAccess}</p>
+    <p class="method-copy">{en.calculation}</p>
+
     <button class="text-button" type="button" data-calibrate hidden>{en.recalibrate}</button>
 
     <div class="calibration" data-calibration hidden>
@@ -84,56 +82,33 @@ const tickMarks = Array.from({ length: 36 });
 
     <div class="error-state" data-error hidden>
       <p class="error-state__title" data-error-title>{en.compassUnavailable}</p>
-      <p data-error-copy>{en.mapFallbackText}</p>
+      <p data-error-copy>{en.compassFallbackText}</p>
       <button class="secondary-button" type="button" data-retry>{en.retry}</button>
     </div>
   </div>
 
-  <div class="map-fallback" data-map-fallback hidden>
-    <div class="section-heading">
-      <h2>{en.mapFallbackTitle}</h2>
-      <span class="fallback-bearing" data-fallback-bearing>—°</span>
-    </div>
-    <p class="section-copy">{en.mapFallbackText}</p>
-    <div class="world-map-wrap">
-      <svg
-        class="world-map"
-        viewBox="0 0 360 180"
-        role="img"
-        aria-label={en.mapFallbackAria}
-        data-world-map
-      >
-        <defs>
-          <pattern id="map-grid" width="30" height="30" patternUnits="userSpaceOnUse">
-            <path d="M 30 0 L 0 0 0 30" fill="none" stroke="currentColor" stroke-width="0.35" opacity="0.35"></path>
-          </pattern>
-        </defs>
-        <rect width="360" height="180" fill="url(#map-grid)"></rect>
-        <path class="land land--americas" d="M32 37 48 26 69 30 82 45 75 54 79 69 69 82 61 78 54 91 46 85 40 69 31 59 34 49Z"></path>
-        <path class="land land--eurasia" d="M160 35 174 24 196 27 211 22 234 29 250 26 270 38 292 39 306 53 296 61 280 60 271 68 252 62 236 70 220 63 206 71 194 62 178 64 166 53Z"></path>
-        <path class="land land--africa" d="M177 69 194 66 208 77 205 94 196 111 185 130 173 112 169 93Z"></path>
-        <path class="land land--australia" d="M278 123 294 116 314 122 324 135 314 147 295 145 283 136Z"></path>
-        <line class="map-route" data-map-route x1="0" y1="0" x2="0" y2="0"></line>
-        <circle class="map-point map-point--user" data-map-user cx="0" cy="0" r="3"></circle>
-        <circle class="map-point map-point--kaaba" data-map-kaaba cx="219.8" cy="68.6" r="3"></circle>
-        <text class="map-label" data-map-user-label x="0" y="0">You</text>
-        <text class="map-label map-label--kaaba" x="225" y="67">Kaaba</text>
-      </svg>
-    </div>
-  </div>
-
-  <p class="attribution">
-    Sadaqah Jariyah for <a href="https://www.linkedin.com/in/okhadi/" rel="noreferrer">Hadi Khan</a>
-  </p>
+  <footer class="attribution">
+    <p>Sadaqah Jariyah for <a href="https://www.linkedin.com/in/okhadi/" rel="noreferrer">Hadi Khan</a></p>
+    <nav class="social-links" aria-label="Social links">
+      <a href="https://www.linkedin.com/in/okhadi/" target="_blank" rel="noreferrer" aria-label="Hadi Khan on LinkedIn" title="LinkedIn">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M6.5 8.25A1.75 1.75 0 1 0 6.5 4.75a1.75 1.75 0 0 0 0 3.5ZM5 9.75h3v9.5H5v-9.5Zm4.75 0h2.88v1.3h.04c.4-.75 1.38-1.55 2.84-1.55 3.04 0 3.6 2 3.6 4.6v5.15h-3v-4.57c0-1.09-.02-2.5-1.52-2.5s-1.75 1.19-1.75 2.42v4.65h-3v-9.5Z"></path>
+        </svg>
+      </a>
+      <a href="https://github.com/okHadi" target="_blank" rel="noreferrer" aria-label="Hadi Khan on GitHub" title="GitHub">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M12 2.5a9.5 9.5 0 0 0-3 18.51c.47.09.65-.2.65-.46v-1.62c-2.65.58-3.21-1.12-3.21-1.12-.43-1.1-1.06-1.39-1.06-1.39-.86-.59.07-.58.07-.58.95.07 1.45.98 1.45.98.85 1.45 2.23 1.03 2.78.79.08-.62.33-1.03.6-1.27-2.12-.24-4.35-1.06-4.35-4.72 0-1.04.37-1.89.98-2.55-.1-.24-.43-1.2.09-2.51 0 0 .8-.26 2.62.97A9.1 9.1 0 0 1 12 7.2a9.1 9.1 0 0 1 2.39.32c1.82-1.23 2.62-.97 2.62-.97.52 1.31.19 2.27.09 2.51.61.66.98 1.51.98 2.55 0 3.67-2.24 4.48-4.37 4.72.34.29.64.84.64 1.7v2.52c0 .26.18.56.66.46A9.5 9.5 0 0 0 12 2.5Z"></path>
+        </svg>
+      </a>
+    </nav>
+  </footer>
 </section>
 
 <script>
   import {
-    KAABA,
     calculateQibla,
     getRelativeQiblaBearing,
     normalizeDegrees,
-    projectToMap,
     type Coordinates,
   } from '../lib/qibla';
 
@@ -153,11 +128,6 @@ const tickMarks = Array.from({ length: 36 });
   const errorTitle = document.querySelector<HTMLElement>('[data-error-title]');
   const errorCopy = document.querySelector<HTMLElement>('[data-error-copy]');
   const retryButton = document.querySelector<HTMLButtonElement>('[data-retry]');
-  const mapFallback = document.querySelector<HTMLElement>('[data-map-fallback]');
-  const fallbackBearing = document.querySelector<HTMLElement>('[data-fallback-bearing]');
-  const mapRoute = document.querySelector<SVGLineElement>('[data-map-route]');
-  const mapUser = document.querySelector<SVGCircleElement>('[data-map-user]');
-  const mapUserLabel = document.querySelector<SVGTextElement>('[data-map-user-label]');
 
   let currentState: CompassState = 'idle';
   let qiblaBearing = 0;
@@ -179,7 +149,6 @@ const tickMarks = Array.from({ length: 36 });
     const rounded = Math.round(normalizeDegrees(bearing));
     if (bearingValue) bearingValue.textContent = String(rounded);
     if (cardinalValue) cardinalValue.textContent = getCardinalDirection(bearing);
-    if (fallbackBearing) fallbackBearing.textContent = `${rounded}°`;
   }
 
   function getCardinalDirection(bearing: number): string {
@@ -197,31 +166,23 @@ const tickMarks = Array.from({ length: 36 });
     return directions[index];
   }
 
-  function setMap(locationToShow: Coordinates): void {
-    const userPoint = projectToMap(locationToShow);
-    const kaabaPoint = projectToMap(KAABA);
-
-    mapRoute?.setAttribute('x1', String(userPoint.x));
-    mapRoute?.setAttribute('y1', String(userPoint.y));
-    mapRoute?.setAttribute('x2', String(kaabaPoint.x));
-    mapRoute?.setAttribute('y2', String(kaabaPoint.y));
-    mapUser?.setAttribute('cx', String(userPoint.x));
-    mapUser?.setAttribute('cy', String(userPoint.y));
-    mapUserLabel?.setAttribute('x', String(userPoint.x + 6));
-    mapUserLabel?.setAttribute('y', String(userPoint.y - 6));
-  }
-
   function getOrientationAngle(): number {
-    return Number(window.screen.orientation?.angle ?? 0);
+    const screenAngle = window.screen.orientation?.angle;
+    if (typeof screenAngle === 'number') return screenAngle;
+
+    const legacyAngle = (window as Window & { orientation?: number }).orientation;
+    return typeof legacyAngle === 'number' ? legacyAngle : 0;
   }
 
   function readHeading(event: DeviceOrientationEvent): number | null {
-    const webkitHeading = (event as DeviceOrientationEvent & { webkitCompassHeading?: number }).webkitCompassHeading;
+    const compassEvent = event as DeviceOrientationEvent & { webkitCompassHeading?: number };
+    const webkitHeading = compassEvent.webkitCompassHeading;
 
     if (typeof webkitHeading === 'number' && Number.isFinite(webkitHeading)) {
       return normalizeDegrees(webkitHeading);
     }
 
+    if (event.absolute === false) return null;
     if (typeof event.alpha !== 'number' || !Number.isFinite(event.alpha)) return null;
 
     return normalizeDegrees(360 - event.alpha + getOrientationAngle());
@@ -251,7 +212,7 @@ const tickMarks = Array.from({ length: 36 });
   }
 
   function startOrientation(): boolean {
-    if (!('DeviceOrientationEvent' in window)) return false;
+    if (typeof window.DeviceOrientationEvent === 'undefined') return false;
 
     window.addEventListener('deviceorientation', handleOrientation, true);
     window.addEventListener('deviceorientationabsolute', handleOrientation, true);
@@ -265,12 +226,12 @@ const tickMarks = Array.from({ length: 36 });
       if (currentState === 'ready' && !headingReceived) {
         showFallback('Your phone did not provide a compass reading.');
       }
-    }, 4000);
+    }, 6000);
   }
 
   async function requestOrientationPermission(): Promise<boolean> {
     const orientation = window.DeviceOrientationEvent as (typeof DeviceOrientationEvent & {
-      requestPermission?: () => Promise<'granted' | 'denied'>;
+      requestPermission?: (absolute?: boolean) => Promise<'granted' | 'denied'>;
     }) | undefined;
 
     if (!orientation) return false;
@@ -278,7 +239,7 @@ const tickMarks = Array.from({ length: 36 });
     if (typeof orientation.requestPermission !== 'function') return startOrientation();
 
     try {
-      const permission = await orientation.requestPermission();
+      const permission = await orientation.requestPermission(true);
       return permission === 'granted' && startOrientation();
     } catch {
       return false;
@@ -292,10 +253,16 @@ const tickMarks = Array.from({ length: 36 });
         return;
       }
 
+      const localHostnames = new Set(['localhost', '127.0.0.1', '[::1]']);
+      if (!window.isSecureContext && !localHostnames.has(window.location.hostname)) {
+        reject(new Error('secure-context-required'));
+        return;
+      }
+
       navigator.geolocation.getCurrentPosition(resolve, reject, {
-        enableHighAccuracy: true,
-        timeout: 12000,
-        maximumAge: 0,
+        enableHighAccuracy: false,
+        timeout: 15000,
+        maximumAge: 300000,
       });
     });
   }
@@ -304,21 +271,19 @@ const tickMarks = Array.from({ length: 36 });
     stopOrientation();
     setState('fallback');
     if (errorTitle) errorTitle.textContent = message;
-    if (errorCopy) errorCopy.textContent = 'The map shows the direction from your location to the Kaaba.';
+    if (errorCopy) errorCopy.textContent = 'Use the bearing above. This browser did not provide compass data.';
     if (errorState) errorState.hidden = false;
-    if (mapFallback) mapFallback.hidden = false;
     if (calibrateButton) calibrateButton.hidden = true;
     if (bearingBlock) bearingBlock.hidden = false;
-    setStatus('Compass unavailable.');
+    setStatus('Compass unavailable. Use the bearing above.');
   }
 
-  function showError(message: string): void {
+  function showError(message: string, copy = 'Check your browser permissions, then try again.'): void {
     stopOrientation();
     setState('error');
     if (errorTitle) errorTitle.textContent = message;
-    if (errorCopy) errorCopy.textContent = 'Check your browser permissions, then try again.';
+    if (errorCopy) errorCopy.textContent = copy;
     if (errorState) errorState.hidden = false;
-    if (mapFallback) mapFallback.hidden = true;
     if (calibrateButton) calibrateButton.hidden = true;
     setStatus('Location unavailable.');
   }
@@ -330,7 +295,6 @@ const tickMarks = Array.from({ length: 36 });
     startButton.disabled = true;
     if (startText) startText.textContent = 'Finding Qibla…';
     if (errorState) errorState.hidden = true;
-    if (mapFallback) mapFallback.hidden = true;
     if (calibration) calibration.hidden = true;
     setStatus('Allow compass access to point the arrow.');
 
@@ -346,7 +310,6 @@ const tickMarks = Array.from({ length: 36 });
       const result = calculateQibla(location);
       qiblaBearing = result.bearing;
       setBearing(qiblaBearing);
-      setMap(location);
 
       if (bearingBlock) bearingBlock.hidden = false;
 
@@ -363,7 +326,24 @@ const tickMarks = Array.from({ length: 36 });
         typeof error === 'object' && error !== null && 'code' in error
           ? Number(error.code)
           : 0;
-      showError(code === 1 ? 'Location access is needed to calculate Qibla.' : 'We could not get your location.');
+      const errorMessage = error instanceof Error ? error.message : '';
+
+      if (errorMessage === 'geolocation-unavailable') {
+        showError('This browser cannot provide your location.', 'Try a browser with location access enabled.');
+      } else if (errorMessage === 'secure-context-required') {
+        showError('Location needs a secure connection.', 'Open this site over HTTPS, then try again.');
+      } else if (code === 1) {
+        showError(
+          'Location access is needed to calculate Qibla.',
+          'Allow location for this site. On a Mac, also allow your browser in System Settings > Privacy & Security > Location Services.',
+        );
+      } else if (code === 2) {
+        showError('Your browser could not find your location.', 'Turn on Location Services, then try again.');
+      } else if (code === 3) {
+        showError('Location took too long.', 'Move somewhere with a clearer signal, then try again.');
+      } else {
+        showError('We could not get your location.');
+      }
     } finally {
       startButton.disabled = false;
       if (startText) startText.textContent = 'Find Qibla';

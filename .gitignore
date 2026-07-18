@@ -2,6 +2,8 @@ node_modules/
 dist/
 .astro/
 .wrangler/
+.playwright-mcp/
+getqibla-current.png
 .env
 .env.*
 !.env.example

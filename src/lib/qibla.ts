@@ -72,10 +72,3 @@ export function calculateQibla(
 export function getRelativeQiblaBearing(qiblaBearing: number, deviceHeading: number): number {
   return shortestAngle(qiblaBearing - deviceHeading);
 }
-
-export function projectToMap(coordinates: Coordinates): { x: number; y: number } {
-  return {
-    x: ((coordinates.longitude + 180) / 360) * 360,
-    y: ((90 - coordinates.latitude) / 180) * 180,
-  };
-}
