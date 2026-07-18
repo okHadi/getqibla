@@ -4,8 +4,9 @@ import { en } from '../i18n/en';
 const tickMarks = Array.from({ length: 36 });
 ---
 
-<section class="finder" aria-label={en.title}>
+<section class="finder" aria-labelledby="page-title">
   <div class="finder__intro">
+    <h1 id="page-title">{en.heading}</h1>
     <label class="language-picker">
       <span>{en.languageLabel}</span>
       <select data-language aria-label={en.languageLabel}>
@@ -17,7 +18,13 @@ const tickMarks = Array.from({ length: 36 });
   </div>
 
   <div class="compass-panel" data-compass-panel data-state="idle">
-    <div class="compass-status" data-status aria-live="polite">
+    <div
+      class="compass-status"
+      data-status
+      data-move-message={en.movePhone}
+      data-aligned-message={en.aligned}
+      aria-live="polite"
+    >
       <span class="status-dot" aria-hidden="true"></span>
       <span data-status-text>{en.privacy}</span>
     </div>
@@ -46,7 +53,6 @@ const tickMarks = Array.from({ length: 36 });
         <div class="compass__arrow" data-qibla-arrow aria-hidden="true">
           <span class="compass__arrow-head"></span>
           <span class="compass__arrow-stem"></span>
-          <span class="compass__arrow-tail"></span>
         </div>
         <div class="compass__center" aria-hidden="true">
           <span class="kaaba-mark"></span>
@@ -87,7 +93,7 @@ const tickMarks = Array.from({ length: 36 });
   </div>
 
   <footer class="attribution">
-    <p>Sadaqah Jariyah for <a href="https://www.linkedin.com/in/okhadi/" rel="noreferrer">Hadi Khan</a></p>
+    <p>Sadaqah Jariyah for Hadi Khan</p>
     <nav class="social-links" aria-label="Social links">
       <a href="https://www.linkedin.com/in/okhadi/" target="_blank" rel="noreferrer" aria-label="Hadi Khan on LinkedIn" title="LinkedIn">
         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
@@ -116,6 +122,7 @@ const tickMarks = Array.from({ length: 36 });
   const root = document.querySelector<HTMLElement>('[data-compass-panel]');
   const startButton = document.querySelector<HTMLButtonElement>('[data-start]');
   const startText = document.querySelector<HTMLElement>('[data-start-text]');
+  const status = document.querySelector<HTMLElement>('[data-status]');
   const statusText = document.querySelector<HTMLElement>('[data-status-text]');
   const bearingBlock = document.querySelector<HTMLElement>('[data-bearing-block]');
   const bearingValue = document.querySelector<HTMLElement>('[data-bearing]');
@@ -134,6 +141,7 @@ const tickMarks = Array.from({ length: 36 });
   let orientationListening = false;
   let headingReceived = false;
   let headingTimeout: number | null = null;
+  const alignmentTolerance = 8;
 
   function setState(state: CompassState): void {
     currentState = state;
@@ -142,6 +150,10 @@ const tickMarks = Array.from({ length: 36 });
 
   function setStatus(message: string): void {
     if (statusText) statusText.textContent = message;
+  }
+
+  function setAlignment(aligned: boolean): void {
+    root?.setAttribute('data-aligned', String(aligned));
   }
 
   function setBearing(bearing: number): void {
@@ -196,8 +208,14 @@ const tickMarks = Array.from({ length: 36 });
     headingReceived = true;
     if (headingTimeout !== null) window.clearTimeout(headingTimeout);
     const rotation = getRelativeQiblaBearing(qiblaBearing, heading);
+    const aligned = Math.abs(rotation) <= alignmentTolerance;
     qiblaArrow?.style.setProperty('--arrow-rotation', `${rotation}deg`);
-    setStatus('Turn your phone until the arrow points up.');
+    setAlignment(aligned);
+    setStatus(
+      aligned
+        ? status?.dataset.alignedMessage ?? 'You are facing the Qibla.'
+        : status?.dataset.moveMessage ?? 'Keep moving your phone until the arrow turns green.',
+    );
   }
 
   function stopOrientation(): void {
@@ -269,6 +287,7 @@ const tickMarks = Array.from({ length: 36 });
   function showFallback(message = 'Your phone compass is not available here.'): void {
     stopOrientation();
     setState('fallback');
+    setAlignment(false);
     if (errorTitle) errorTitle.textContent = message;
     if (errorCopy) errorCopy.textContent = 'Use the bearing above. This browser did not provide compass data.';
     if (errorState) errorState.hidden = false;
@@ -280,6 +299,7 @@ const tickMarks = Array.from({ length: 36 });
   function showError(message: string, copy = 'Check your browser permissions, then try again.'): void {
     stopOrientation();
     setState('error');
+    setAlignment(false);
     if (errorTitle) errorTitle.textContent = message;
     if (errorCopy) errorCopy.textContent = copy;
     if (errorState) errorState.hidden = false;
@@ -295,6 +315,7 @@ const tickMarks = Array.from({ length: 36 });
     if (startText) startText.textContent = 'Finding Qibla…';
     if (errorState) errorState.hidden = true;
     if (calibration) calibration.hidden = true;
+    setAlignment(false);
     setStatus('Allow compass access to point the arrow.');
 
     const hasCompass = await requestOrientationPermission();
