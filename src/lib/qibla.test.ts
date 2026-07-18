@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import {
   KAABA,
   calculateDistanceKm,
+  calculateCompassHeading,
   calculateQibla,
   calculateQiblaBearing,
   getRelativeQiblaBearing,
@@ -41,6 +42,12 @@ describe('Qibla calculations', () => {
     expect(normalizeDegrees(721)).toBe(1);
     expect(shortestAngle(270)).toBe(-90);
     expect(shortestAngle(-190)).toBe(170);
+  });
+
+  it('calculates a tilt-compensated compass heading', () => {
+    expect(calculateCompassHeading(100, 0, 0)).toBeCloseTo(260, 5);
+    expect(calculateCompassHeading(100, 90, 0)).toBeCloseTo(260, 5);
+    expect(calculateCompassHeading(0, 90, 90)).toBeCloseTo(270, 5);
   });
 
   it('calculates the shortest arrow rotation', () => {

@@ -22,6 +22,29 @@ export function normalizeDegrees(value: number): number {
   return ((value % 360) + 360) % 360;
 }
 
+export function calculateCompassHeading(alpha: number, beta: number, gamma: number): number | null {
+  if (![alpha, beta, gamma].every(Number.isFinite)) return null;
+
+  if (Math.abs(beta) < 15 && Math.abs(gamma) < 15) {
+    return normalizeDegrees(360 - alpha);
+  }
+
+  const toRadians = Math.PI / 180;
+  const x = beta * toRadians;
+  const z = alpha * toRadians;
+  const y = gamma * toRadians;
+  const sX = Math.sin(x);
+  const cZ = Math.cos(z);
+  const cY = Math.cos(y);
+  const sZ = Math.sin(z);
+  const sY = Math.sin(y);
+
+  const vectorX = -cZ * sY - sZ * sX * cY;
+  const vectorY = -sZ * sY + cZ * sX * cY;
+
+  return normalizeDegrees((Math.atan2(vectorX, vectorY) * 180) / Math.PI);
+}
+
 export function shortestAngle(value: number): number {
   const normalized = normalizeDegrees(value);
   return normalized > 180 ? normalized - 360 : normalized;

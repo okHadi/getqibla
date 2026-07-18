@@ -112,6 +112,7 @@ const tickMarks = Array.from({ length: 36 });
 <script>
   import {
     calculateQibla,
+    calculateCompassHeading,
     getRelativeQiblaBearing,
     normalizeDegrees,
     type Coordinates,
@@ -193,10 +194,17 @@ const tickMarks = Array.from({ length: 36 });
       return normalizeDegrees(webkitHeading);
     }
 
-    if (event.absolute === false) return null;
+    if (event.absolute !== true) return null;
     if (typeof event.alpha !== 'number' || !Number.isFinite(event.alpha)) return null;
 
-    return normalizeDegrees(360 - event.alpha + getOrientationAngle());
+    if (typeof event.beta !== 'number' || !Number.isFinite(event.beta)) return null;
+    if (typeof event.gamma !== 'number' || !Number.isFinite(event.gamma)) return null;
+
+    const tiltCompensatedHeading = calculateCompassHeading(event.alpha, event.beta, event.gamma);
+
+    return tiltCompensatedHeading === null
+      ? null
+      : normalizeDegrees(tiltCompensatedHeading + getOrientationAngle());
   }
 
   function handleOrientation(event: DeviceOrientationEvent): void {
@@ -336,7 +344,7 @@ const tickMarks = Array.from({ length: 36 });
       if (hasCompass) {
         setState('ready');
         if (calibrateButton) calibrateButton.hidden = false;
-        setStatus('Turn your phone until the arrow points up.');
+        setStatus(status?.dataset.moveMessage ?? 'Keep moving your phone until the arrow turns green.');
         waitForHeading();
       } else {
         showFallback();
